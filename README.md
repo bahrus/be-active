@@ -1,4 +1,4 @@
-# be-active [TODO]
+# be-active
 
 Activate template content.
 
