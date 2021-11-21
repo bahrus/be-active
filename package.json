@@ -1,8 +1,24 @@
 {
   "name": "be-active",
   "version": "0.0.0",
-  "description": "",
-  "main": "index.js",
+  "keywords": [
+    "web-components",
+    "web-component",
+    "custom-element",
+    "custom-elements",
+    "hydrate"
+  ],
+  "description": "Activate template content.",
+  "main": "be-active.js",
+  "module": "be-active.js",
+  "exports":{
+    ".": "./be-active.js",
+    "./be-active.js": "./be-active.js"
+  },
+  "files": [
+    "*.*"
+  ],
+  "types": "types.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "package-check": "package-check",
@@ -21,7 +37,7 @@
     "type": "git",
     "url": "git+https://github.com/bahrus/be-active.git"
   },
-  "author": "",
+  "author": "anderson.bruce.b@gmail.com",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bahrus/be-active/issues"

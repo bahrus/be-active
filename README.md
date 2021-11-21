@@ -1,5 +1,7 @@
 # be-active [TODO]
 
+Activate template content.
+
 ## Example 1
 
 ```html
