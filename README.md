@@ -37,7 +37,9 @@ Now with be-active, just include the id:
 </template>
 ```
 
-CDN's will replace the arrow function with a fully qualified url (maybe)?
+CDN's will replace the arrow function with a fully qualified url (maybe)? 
+
+Correction - both snowpack and jsdelivr appear to replace import url's with absolute paths.  Hopefully they would do the same with an arrow function (TBD)
 
 
 
