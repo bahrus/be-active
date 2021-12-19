@@ -1,4 +1,4 @@
-# be-active
+# be-active [TODO]
 
 Activate template content.
 
@@ -23,4 +23,9 @@ Why?
 
 2.  Font dependencies of a web component have to be added outside of any shadow DOM.
 
-## Example 2
+## Example 2  Support Media Queries 
+
+## Example 3  Support link preload tags.
+
+If same id found as a link rel=preload tag, insert that script instead.
+
