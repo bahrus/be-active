@@ -5,7 +5,7 @@ import {register} from 'be-hive/register.js';
 export class BeActiveController implements BeActiveActions{
     intro(proxy: HTMLTemplateElement & BeActiveVirtualProps, target: HTMLTemplateElement, beDecorProps: BeDecoratedProps){
         const clone = target.content.cloneNode(true) as DocumentFragment;
-        this.cloneTemplate(clone, 'script', ['src', 'type', 'nomodule']);
+        this.cloneTemplate(clone, 'script', ['src', 'type', 'nomodule', 'id']);
         this.cloneTemplate(clone, 'style', []);
         target.remove();
     }
@@ -20,6 +20,8 @@ export class BeActiveController implements BeActiveActions{
 
     cloneTemplate(clonedNode: DocumentFragment, tagName: string, copyAttrs: string[]){ 
         Array.from(clonedNode.querySelectorAll(tagName)).forEach(node =>{
+            const {id} = node;
+            if(id && (<any>self)[id]) return;
             const clone = document.createElement(tagName) as HTMLScriptElement;
             this.copyAttrs(node as HTMLScriptElement, clone, copyAttrs);
             clone.innerHTML = node.innerHTML;

@@ -3,7 +3,7 @@ import { register } from 'be-hive/register.js';
 export class BeActiveController {
     intro(proxy, target, beDecorProps) {
         const clone = target.content.cloneNode(true);
-        this.cloneTemplate(clone, 'script', ['src', 'type', 'nomodule']);
+        this.cloneTemplate(clone, 'script', ['src', 'type', 'nomodule', 'id']);
         this.cloneTemplate(clone, 'style', []);
         target.remove();
     }
@@ -17,6 +17,9 @@ export class BeActiveController {
     }
     cloneTemplate(clonedNode, tagName, copyAttrs) {
         Array.from(clonedNode.querySelectorAll(tagName)).forEach(node => {
+            const { id } = node;
+            if (id && self[id])
+                return;
             const clone = document.createElement(tagName);
             this.copyAttrs(node, clone, copyAttrs);
             clone.innerHTML = node.innerHTML;
