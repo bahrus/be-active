@@ -15,7 +15,29 @@ Activate template content.
 </template>
 ```
 
-**NB:** When deploying to a CDN, all JavaScript paths that use bare import syntax must be deployed along with an import map.
+**NB:** When deploying to a CDN, all JavaScript paths that use bare import syntax must be deployed along with an import map.  This is a problem.
+
+## Tentative solution
+
+To use this library effectively with web components, where we can't expect consumer to set up elaborate import maps, do the following:
+
+In JavaScript code that the browser executes, add the following code:
+
+```TypeScript
+customElements.whenDefined('be-active').then((ctor) => {
+    ctor.register('blah', () => import('my-blah-component/blah.js'));
+});
+```
+
+Now with be-active, just include the id:
+
+```html
+<template be-active>
+    <script type=module id=blah></script>
+</template>
+```
+
+CDN's will replace the arrow function with a fully qualified url (maybe)?
 
 
 
