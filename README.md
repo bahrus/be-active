@@ -39,7 +39,25 @@ Now with be-active, just include the id:
 
 CDN's will replace the arrow function with a fully qualified url (maybe)? 
 
-Correction - both snowpack and jsdelivr appear to replace import url's with absolute paths.  Hopefully they would do the same with an arrow function (TBD)
+Correction - both snowpack and jsdelivr appear to replace import url's with absolute paths.  Hopefully they would do the same with an arrow function.
+
+snowpack turns () => import('be-hive/be-hive.js') into
+
+() => import("/-/be-hive@v0.0.14-zGYYCkz0U1IVHXIDgRrM/dist=es2019,mode=imports/optimized/be-hive/be-hive.js")
+
+jsdelivr turns it into
+
+()=>import("/npm/be-hive@0.0.14/be-hive.js/+esm")
+
+So they both absolute paths.  The problem is we need to know the domain.  So register function should be:
+
+```TypeScript
+customElements.whenDefined('be-active').then((ctor) => {
+    ctor.register('blah', import.meta.url, () => import('my-blah-component/blah.js'));
+});
+```
+
+Get the domain from the second argument, extract the stuff after the import(, and before the last )
 
 
 
