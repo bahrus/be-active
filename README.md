@@ -15,7 +15,7 @@ Activate template content.
 </template>
 ```
 
-
+**NB:** When deploying to a CDN, all JavaScript paths that use bare import syntax must be deployed along with an import map.
 
 
 
