@@ -2,6 +2,8 @@ import {BeDecoratedProps, define} from 'be-decorated/be-decorated.js';
 import {BeActiveActions, BeActiveVirtualProps, BeActiveProps} from './types';
 import {register} from 'be-hive/register.js';
 
+const test = () => import('be-hive/be-hive.js');
+console.log(test);
 export class BeActiveController implements BeActiveActions{
     intro(proxy: HTMLTemplateElement & BeActiveVirtualProps, target: HTMLTemplateElement, beDecorProps: BeDecoratedProps){
         const clone = target.content.cloneNode(true) as DocumentFragment;

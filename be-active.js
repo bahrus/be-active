@@ -1,5 +1,7 @@
 import { define } from 'be-decorated/be-decorated.js';
 import { register } from 'be-hive/register.js';
+const test = () => import('be-hive/be-hive.js');
+console.log(test);
 export class BeActiveController {
     intro(proxy, target, beDecorProps) {
         const clone = target.content.cloneNode(true);
