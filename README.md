@@ -1,8 +1,8 @@
-# be-active [TODO]
+# be-active 
 
 Activate template content.
 
-## Example 1
+## Example 1 -- Preemptive
 
 ```html
 <template be-active>
@@ -15,6 +15,10 @@ Activate template content.
 </template>
 ```
 
+
+
+
+
 Appends each DOM element to head if no matching id found (id optional)
 
 Why?  
@@ -22,6 +26,8 @@ Why?
 1.  Outside shadow DOM, when a script tag is inserted, the browser "picks it up" and loads the dependency.  Not so inside Shadow DOM.  This strangely inconsistent behavior can be inconvenient, especially if we want to lazy load / prioritize how scripts are loaded.
 
 2.  Font dependencies of a web component have to be added outside of any shadow DOM.
+
+## Example 2 -- Lazy [TODO]
 
 ## Example 2  Support Media Queries 
 

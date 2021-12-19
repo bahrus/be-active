@@ -33,7 +33,7 @@ define<BeActiveProps & BeDecoratedProps<BeActiveProps, BeActiveActions>, BeActiv
         propDefaults:{
             ifWantsToBe,
             upgrade,
-            forceVisible: true,
+            forceVisible: ['template'],
             virtualProps: [],
             intro: 'intro'
         }
