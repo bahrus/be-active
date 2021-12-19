@@ -3,18 +3,25 @@ import { register } from 'be-hive/register.js';
 export class BeActiveController {
     intro(proxy, target, beDecorProps) {
         const clone = target.content.cloneNode(true);
-        const head = document.head;
-        const toBeCopied = [];
-        for (const node of clone.children) {
-            if (node.id && self[node.id])
-                continue;
-            toBeCopied.push(node);
-        }
-        while (toBeCopied.length > 0) {
-            const node = toBeCopied.pop();
-            head.appendChild(node);
-        }
+        this.cloneTemplate(clone, 'script', ['src', 'type', 'nomodule']);
+        this.cloneTemplate(clone, 'style', []);
         target.remove();
+    }
+    copyAttrs(src, dest, attrs) {
+        attrs.forEach(attr => {
+            if (!src.hasAttribute(attr))
+                return;
+            const attrVal = src.getAttribute(attr);
+            dest.setAttribute(attr, attrVal);
+        });
+    }
+    cloneTemplate(clonedNode, tagName, copyAttrs) {
+        Array.from(clonedNode.querySelectorAll(tagName)).forEach(node => {
+            const clone = document.createElement(tagName);
+            this.copyAttrs(node, clone, copyAttrs);
+            clone.innerHTML = node.innerHTML;
+            document.head.appendChild(clone);
+        });
     }
 }
 const tagName = 'be-active';
