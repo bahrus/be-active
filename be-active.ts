@@ -10,7 +10,7 @@ export class BeActiveController implements BeActiveActions{
         this.#target = target;
     }
 
-    onCDN({baseCDN}: this): void {
+    onCDN({}: this): void {
         const clone = this.#target.content.cloneNode(true) as DocumentFragment;
         clone.querySelectorAll('script').forEach(node =>{
             this.handleScriptTag(node);
@@ -32,14 +32,22 @@ export class BeActiveController implements BeActiveActions{
     handleScriptTag(node: HTMLScriptElement){
         const {id} = node;
         if(!id) throw 'MIA';  //Missing Id Attribute
-        const existingTag = (<any>self)[id] as Element;
+        const existingTag = (<any>self)[id] as HTMLLinkElement;
         if(existingTag !== undefined && existingTag.localName === 'script') return;
         const clone = document.createElement('script') as HTMLScriptElement;
         clone.id = id;
         clone.type = 'module';
         this.copyAttrs(node, clone, ['async', 'defer', 'integrity', 'crossorigin']);
-
-        clone.innerHTML = node.innerHTML;
+        if(existingTag !== undefined){
+            clone.innerHTML = `import('${existingTag.href}');`;
+        }else{
+            clone.innerHTML = `
+try{
+    import('${node.src}');
+}catch(e){
+}
+            `
+        }
         document.head.appendChild(clone);
     }
 
@@ -65,8 +73,14 @@ define<BeActiveProps & BeDecoratedProps<BeActiveProps, BeActiveActions>, BeActiv
             proxyPropDefaults:{
                 baseCDN: 'https://esm.run/',
             },
+            primaryProp: 'baseCDN',
             virtualProps: [],
             intro: 'intro'
+        },
+        actions:{
+            onCDN: { //TODO:  enhance trans-render so can just set onCDN: 'baseCDN'
+                ifAllOf: ['baseCDN'],
+            }
         }
     },
     complexPropDefaults:{
