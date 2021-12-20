@@ -56,7 +56,7 @@ Also, use of an id will block other instances from trying to resolve to somethin
 
 What be-active does:
 
-For each script tag found inside the be-active adorned template:
+For each script tag found inside the be-active adorned template: [TODO]
 
 1.  If the id of the script tag matches a link tag, a dynamic import of the href is added to the head tag.  The link tag is removed.  End of story.
 2.  One script tag will be created in the head tag, with the same id (assuming such an id doesn't already exist).
