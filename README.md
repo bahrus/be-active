@@ -2,7 +2,6 @@
 
 Activate template content.
 
-## Example 1 -- Preemptive
 
 ```html
 <template be-active>
@@ -65,6 +64,7 @@ For each script tag found inside the be-active adorned template: [TODO]
 4.  If the second attempted import fails, it will be logged to the console natively.
 5.  If, in the future, import maps are enhanced to provide an api for resolving (or failing to resolve) a path, then the try catch won't be necessary.
 
+For each style tag:  [TODO]
 
 ## Options [TODO]
 
@@ -73,6 +73,19 @@ baseLinkRef - specify an id of alternative CDN link rel=preconnect.
 data-is-link-ref-only applied to subset of individual script elements - if present, script tag will only use that (bundled) reference if it finds that link rel=preload/lazy tag.  Otherwise, does nothing.
 
 data-only-if-no-bundled-link-ref="link-ref-id" - if present, script tag will only add this (unbundled) reference if no link-ref matching the value is found.  Otherwise, does nothing.
+
+## Part I -- Preemptive
+
+Recall our first example:
+
+```html
+<template be-active>
+    <script id=blah src=blah/blah.js integrity=... crossorigin=anonymous></script>
+    <style id=IndieFlowerFont>
+        @import url(https://fonts.googleapis.com/css?family=Indie+Flower);
+    </style>
+</template>
+```
 
 ## Example 2 -- Lazy Loading [TODO]
 

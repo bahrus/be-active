@@ -38,6 +38,8 @@ export class BeActiveController implements BeActiveActions{
         if(!id) throw 'MIA';  //Missing Id Attribute
         const existingTag = (<any>self)[id] as HTMLLinkElement;
         if(existingTag !== undefined && existingTag.localName === 'script') return;
+        //TODO -- if no existingTag, but dom content not fully loaded, have to wait (for lazy support)
+        //only if supportLazy setting is present.
         const clone = document.createElement('script') as HTMLScriptElement;
         clone.id = id;
         clone.type = 'module';
@@ -49,7 +51,7 @@ export class BeActiveController implements BeActiveActions{
 try{
     import('${node.src}');
 }catch(e){
-    import('${this.baseCDN})
+    import('${this.baseCDN}')
 }
             `
         }
@@ -79,11 +81,11 @@ define<BeActiveProps & BeDecoratedProps<BeActiveProps, BeActiveActions>, BeActiv
                 baseCDN: 'https://esm.run/',
             },
             primaryProp: 'baseCDN',
-            virtualProps: [],
+            virtualProps: ['baseCDN'],
             intro: 'intro'
         },
         actions:{
-            onCDN: { //TODO:  enhance trans-render so can just set onCDN: 'baseCDN'
+            onCDN: { //TODO:  enhance trans-render/CE.js so can just set onCDN: 'baseCDN'
                 ifAllOf: ['baseCDN'],
             }
         }

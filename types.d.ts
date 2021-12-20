@@ -2,6 +2,7 @@ import {BeDecoratedProps} from 'be-decorated/types';
 
 export interface BeActiveVirtualProps{
     baseCDN: string;
+    supportLazy: boolean;
 }
 
 export interface BeActiveProps extends BeActiveVirtualProps{

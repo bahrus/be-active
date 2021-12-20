@@ -1,13 +1,23 @@
 import { define } from 'be-decorated/be-decorated.js';
 import { register } from 'be-hive/register.js';
-const test = () => import('be-hive/be-hive.js');
-console.log(test);
 export class BeActiveController {
+    #target;
     intro(proxy, target, beDecorProps) {
-        const clone = target.content.cloneNode(true);
-        this.cloneTemplate(clone, 'script', ['src', 'type', 'nomodule', 'id']);
-        this.cloneTemplate(clone, 'style', []);
-        target.remove();
+        this.#target = target;
+    }
+    onCDN({ baseCDN, proxy }) {
+        if (!baseCDN.endsWith('/')) {
+            proxy.baseCDN += '/';
+            return; // orchestrator will re-call this method
+        }
+        const clone = this.#target.content.cloneNode(true);
+        clone.querySelectorAll('script').forEach(node => {
+            this.handleScriptTag(node);
+        });
+        clone.querySelectorAll('style').forEach(node => {
+            this.handleStyleTag(node);
+        });
+        this.#target.remove();
     }
     copyAttrs(src, dest, attrs) {
         attrs.forEach(attr => {
@@ -17,16 +27,34 @@ export class BeActiveController {
             dest.setAttribute(attr, attrVal);
         });
     }
-    cloneTemplate(clonedNode, tagName, copyAttrs) {
-        Array.from(clonedNode.querySelectorAll(tagName)).forEach(node => {
-            const { id } = node;
-            if (id && self[id])
-                return;
-            const clone = document.createElement(tagName);
-            this.copyAttrs(node, clone, copyAttrs);
-            clone.innerHTML = node.innerHTML;
-            document.head.appendChild(clone);
-        });
+    handleScriptTag(node) {
+        const { id } = node;
+        if (!id)
+            throw 'MIA'; //Missing Id Attribute
+        const existingTag = self[id];
+        if (existingTag !== undefined && existingTag.localName === 'script')
+            return;
+        //TODO -- if no existingTag, but dom content not fully loaded, have to wait (for lazy support)
+        //only if supportLazy setting is present.
+        const clone = document.createElement('script');
+        clone.id = id;
+        clone.type = 'module';
+        this.copyAttrs(node, clone, ['async', 'defer', 'integrity', 'crossorigin']);
+        if (existingTag !== undefined) {
+            clone.innerHTML = `import('${existingTag.href}');`;
+        }
+        else {
+            clone.innerHTML = `
+try{
+    import('${node.src}');
+}catch(e){
+    import('${this.baseCDN}')
+}
+            `;
+        }
+        document.head.appendChild(clone);
+    }
+    handleStyleTag(node) {
     }
 }
 const tagName = 'be-active';
@@ -39,8 +67,17 @@ define({
             ifWantsToBe,
             upgrade,
             forceVisible: ['template'],
-            virtualProps: [],
+            proxyPropDefaults: {
+                baseCDN: 'https://esm.run/',
+            },
+            primaryProp: 'baseCDN',
+            virtualProps: ['baseCDN'],
             intro: 'intro'
+        },
+        actions: {
+            onCDN: {
+                ifAllOf: ['baseCDN'],
+            }
         }
     },
     complexPropDefaults: {
