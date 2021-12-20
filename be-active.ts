@@ -2,13 +2,16 @@ import {BeDecoratedProps, define} from 'be-decorated/be-decorated.js';
 import {BeActiveActions, BeActiveVirtualProps, BeActiveProps} from './types';
 import {register} from 'be-hive/register.js';
 
-const test = () => import('be-hive/be-hive.js');
-console.log(test);
+
 export class BeActiveController implements BeActiveActions{
     intro(proxy: HTMLTemplateElement & BeActiveVirtualProps, target: HTMLTemplateElement, beDecorProps: BeDecoratedProps){
         const clone = target.content.cloneNode(true) as DocumentFragment;
-        this.cloneTemplate(clone, 'script', ['src', 'type', 'nomodule', 'id']);
-        this.cloneTemplate(clone, 'style', []);
+        clone.querySelectorAll('script').forEach(node =>{
+            this.handleScriptTag(node);
+        });
+        clone.querySelectorAll('style').forEach(node =>{
+            this.handleStyleTag(node);
+        });
         target.remove();
     }
 
@@ -20,16 +23,20 @@ export class BeActiveController implements BeActiveActions{
         })
     }
 
-    cloneTemplate(clonedNode: DocumentFragment, tagName: string, copyAttrs: string[]){ 
-        Array.from(clonedNode.querySelectorAll(tagName)).forEach(node =>{
-            const {id} = node;
-            if(id && (<any>self)[id]) return;
-            const clone = document.createElement(tagName) as HTMLScriptElement;
-            this.copyAttrs(node as HTMLScriptElement, clone, copyAttrs);
-            clone.innerHTML = node.innerHTML;
-            document.head.appendChild(clone);
-        })
-    
+    handleScriptTag(node: HTMLScriptElement){
+        const {id} = node;
+        if(!id) throw 'MIA';  //Missing Id Attribute
+        const existingTag = (<any>self)[id] as Element;
+        if(existingTag !== undefined && existingTag.localName === 'script') return;
+        const clone = document.createElement('script') as HTMLScriptElement;
+        clone.id = id;
+        clone.type = 'module';
+        this.copyAttrs(node, clone, ['async', 'defer', 'integrity', 'crossorigin']);
+        clone.innerHTML = node.innerHTML;
+        document.head.appendChild(clone);
+    }
+
+    handleStyleTag(node: HTMLStyleElement){
     }
 }
 
@@ -47,6 +54,7 @@ define<BeActiveProps & BeDecoratedProps<BeActiveProps, BeActiveActions>, BeActiv
         propDefaults:{
             ifWantsToBe,
             upgrade,
+            noParse: true,
             forceVisible: ['template'],
             virtualProps: [],
             intro: 'intro'
