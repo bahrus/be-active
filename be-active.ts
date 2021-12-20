@@ -10,7 +10,11 @@ export class BeActiveController implements BeActiveActions{
         this.#target = target;
     }
 
-    onCDN({}: this): void {
+    onCDN({baseCDN, proxy}: this): void {
+        if(!baseCDN.endsWith('/')){
+            proxy.baseCDN += '/';
+            return; // orchestrator will re-call this method
+        }
         const clone = this.#target.content.cloneNode(true) as DocumentFragment;
         clone.querySelectorAll('script').forEach(node =>{
             this.handleScriptTag(node);
@@ -45,6 +49,7 @@ export class BeActiveController implements BeActiveActions{
 try{
     import('${node.src}');
 }catch(e){
+    import('${this.baseCDN})
 }
             `
         }
