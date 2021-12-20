@@ -8,18 +8,17 @@ export class BeActiveController implements BeActiveActions{
     #target!: HTMLTemplateElement;
     intro(proxy: HTMLTemplateElement & BeActiveVirtualProps, target: HTMLTemplateElement, beDecorProps: BeDecoratedProps){
         this.#target = target;
-        const clone = target.content.cloneNode(true) as DocumentFragment;
+    }
+
+    onCDN({baseCDN}: this): void {
+        const clone = this.#target.content.cloneNode(true) as DocumentFragment;
         clone.querySelectorAll('script').forEach(node =>{
             this.handleScriptTag(node);
         });
         clone.querySelectorAll('style').forEach(node =>{
             this.handleStyleTag(node);
         });
-        target.remove();
-    }
-
-    onCDN({baseCDN}: this): void {
-        
+        this.#target.remove();
     }
 
     copyAttrs(src: HTMLScriptElement, dest: Element, attrs: string[]){

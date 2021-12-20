@@ -21,13 +21,13 @@ Activate template content.
 
 3.  If a web component separates the JS payload from the file containing HTML (like a JSON file or an actual HTML file), it is convenient to list the dependencies in the file that actually uses them.
 
-4.  Lazy loading dependencies becomes much more natural if the dependencies are closely positioned to their actual use.
+4.  Lazy loading dependencies becomes much more natural if the dependencies are closely positioned to their actual use.  So even if HTML Modules become a thing, this could still be useful in that context.  
 
 5.  Support for hash integrities and for bundled CDN resources and for preloading resourcing is missing from import maps.
 
 ## Priors
 
-be-active is a declarative approach to [xtal-sip](https://github.com/bahrus/xtal-sip).
+be-active is a declarative alternative to [xtal-sip](https://github.com/bahrus/xtal-sip).
 
 It is a non-blasphemous alternative to part of what [templ-mount](https://github.com/bahrus/templ-mount) does.
 
@@ -35,9 +35,11 @@ It is a non-blasphemous alternative to part of what [templ-mount](https://github
 
 ## **NBs:** 
 
-Adopting this approach means your JavaScript references **cannot benefit from local bundling tools**.  I just don't see how to do that.  Okay, maybe a plugin or two could do that.
+Adopting this approach means your JavaScript references **cannot benefit from local bundling tools**.  I just don't see how to do that.  
 
-Regardless, the solution *can* work with both import maps and CDN's, however.
+Okay, maybe a plugin or two could do that.
+
+Regardless, the solution *can* already work with both import maps and CDN's.
 
 Each script reference must be a src attribute (no inline imports allowed).  You can add type=module if you wish, but it doesn't matter -- this only works for ES Modules.
 
@@ -62,13 +64,13 @@ What be-active does:
 
 basePath - specify an alternative CDN
 
-data-is-link-ref-only applied to subset of individual script elements - if present, script tag will only use that (bundled) reference if it finds that link rel=preload/lazy.  Otherwise, does nothing.
+data-is-link-ref-only applied to subset of individual script elements - if present, script tag will only use that (bundled) reference if it finds that link rel=preload/lazy tag.  Otherwise, does nothing.
 
 data-if-no-bundled-link-ref="link-ref-id" - if present, script tag will only add this (unbundled) reference if no link-ref matching the value is found.  Otherwise, does nothing.
 
 ## Example 2 -- Lazy Loading [TODO]
 
-Support be-observant still binding.
+Support be-observant style binding.
 
 ## Example 3  Support Media Queries [TODO]
 
