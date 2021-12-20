@@ -48,9 +48,8 @@ export class BeActiveController {
 try{
     import('${id}');
 }catch(e){
-    import('${this.baseCDN}${id}';
-}
-            `;
+    import('${this.baseCDN}${id}');
+}`;
         }
         document.head.appendChild(clone);
     }
