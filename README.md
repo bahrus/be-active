@@ -32,7 +32,7 @@ Jquery's [load function](https://api.jquery.com/load/) provides support for load
 
 be-active is a declarative alternative to [xtal-sip](https://github.com/bahrus/xtal-sip).
 
-It is also non-blasphemous alternative to part of what [templ-mount](https://github.com/bahrus/templ-mount) does.
+It is also a non-blasphemous alternative to part of what [templ-mount](https://github.com/bahrus/templ-mount) does.
 
 
 ## **NBs:** 
@@ -47,11 +47,11 @@ Each script reference must be a src attribute (no inline imports allowed).  You 
 
 By default, CDN provider [jsdelivr.com](https://www.jsdelivr.com/esm) is used.  However, alternative CDN's, such as cdn.skypack.dev, or unpkg.com or maybe an internal CDN, can be used.
 
-To specify the alternative CDN, use the `be-active=[id of link tag, like a rel=preconnect]` attribute to specify it.  (However, for unpkg.com, a more complex configuration setting is required.)
+To specify the alternative CDN, use the `be-active=[id of link tag, like a rel=preconnect]` attribute to specify it.  (However, for unpkg.com, a more complex configuration setting is required. [TODO])
 
 The id is required, and is used in this way:  If the id matches to a link rel=preload (or link rel=anything, really) it will get the href from that link, and ignore the src attribute. Hash integrities will be copied from the link tag.
 
-Also, use of an id will block other instances from trying to resolve to something else.  Recommended id is the bare import specifier you recommend when referencing the resource in code. This helps to avoid cluttering the head tag, which is where the script tags are placed.
+Also, use of an id will block other instances from trying to resolve to something else.  Recommended id is the bare import specifier that is recommended when referencing the resource in code. This helps to avoid cluttering the head tag, which is where the script tags are placed.
 
 What be-active does:
 
