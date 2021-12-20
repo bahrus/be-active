@@ -1,4 +1,4 @@
-# be-active [TODO]
+# be-active [WIP]
 
 Activate template content.
 
@@ -55,14 +55,14 @@ Also, use of an id will block other instances from trying to resolve to somethin
 
 What be-active does:
 
-For each script tag found inside the be-active adorned template: [TODO]
+For each script tag found inside the be-active adorned template: 
 
-1.  If the id of the script tag matches a link tag, a dynamic import of the href is added to the head tag.  The link tag is removed.  End of story.
+1.  If the id of the script tag matches a link tag, a dynamic import of the href is added to the head tag.  The link tag is removed.  End of story. [TODO]
 2.  One script tag will be created in the head tag, with the same id (assuming such an id doesn't already exist).
 2.  The src attribute will be turned into a dynamic import inside the head script tag.  However, the import will be inside a try/catch block.
 3.  Should the import fail, in the catch block, the src reference will be prepended with the CDN base url, and that will be tried. An optional postfix parameter will be specifiable.
 4.  If the second attempted import fails, it will be logged to the console natively.
-5.  If, in the future, import maps are enhanced to provide an api for resolving (or failing to resolve) a path, then the try catch won't be necessary.
+5.  If, in the future, import maps are enhanced to provide an api for resolving (or failing to resolve) a path, then the try catch won't be necessary. [TODO]
 
 For each style tag:  [TODO]
 
