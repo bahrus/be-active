@@ -3,8 +3,11 @@ import {BeActiveActions, BeActiveVirtualProps, BeActiveProps} from './types';
 import {register} from 'be-hive/register.js';
 
 
+
 export class BeActiveController implements BeActiveActions{
+    #target!: HTMLTemplateElement;
     intro(proxy: HTMLTemplateElement & BeActiveVirtualProps, target: HTMLTemplateElement, beDecorProps: BeDecoratedProps){
+        this.#target = target;
         const clone = target.content.cloneNode(true) as DocumentFragment;
         clone.querySelectorAll('script').forEach(node =>{
             this.handleScriptTag(node);
@@ -13,6 +16,10 @@ export class BeActiveController implements BeActiveActions{
             this.handleStyleTag(node);
         });
         target.remove();
+    }
+
+    onCDN({baseCDN}: this): void {
+        
     }
 
     copyAttrs(src: HTMLScriptElement, dest: Element, attrs: string[]){
@@ -32,6 +39,7 @@ export class BeActiveController implements BeActiveActions{
         clone.id = id;
         clone.type = 'module';
         this.copyAttrs(node, clone, ['async', 'defer', 'integrity', 'crossorigin']);
+
         clone.innerHTML = node.innerHTML;
         document.head.appendChild(clone);
     }
@@ -54,8 +62,10 @@ define<BeActiveProps & BeDecoratedProps<BeActiveProps, BeActiveActions>, BeActiv
         propDefaults:{
             ifWantsToBe,
             upgrade,
-            noParse: true,
             forceVisible: ['template'],
+            proxyPropDefaults:{
+                baseCDN: 'https://esm.run/',
+            },
             virtualProps: [],
             intro: 'intro'
         }

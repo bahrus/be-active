@@ -29,6 +29,10 @@ Activate template content.
 
 be-active is a declarative approach to [xtal-sip](https://github.com/bahrus/xtal-sip).
 
+It is a non-blasphemous alternative to part of what [templ-mount](https://github.com/bahrus/templ-mount) does.
+
+[lazy-imports](https://github.com/Polymer/lazy-imports) also shares similar goals.
+
 ## **NBs:** 
 
 Adopting this approach means your JavaScript references **cannot benefit from local bundling tools**.  I just don't see how to do that.  Okay, maybe a plugin or two could do that.
