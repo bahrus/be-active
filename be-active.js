@@ -10,11 +10,11 @@ export class BeActiveController {
             proxy.baseCDN += '/';
             return; // orchestrator will re-call this method
         }
-        const clone = this.#target.content.cloneNode(true);
-        clone.querySelectorAll('script').forEach(node => {
+        const content = this.#target.content;
+        content.querySelectorAll('script').forEach(node => {
             this.handleScriptTag(node);
         });
-        clone.querySelectorAll('style').forEach(node => {
+        content.querySelectorAll('style').forEach(node => {
             this.handleStyleTag(node);
         });
         this.#target.remove();
@@ -39,16 +39,16 @@ export class BeActiveController {
         const clone = document.createElement('script');
         clone.id = id;
         clone.type = 'module';
-        this.copyAttrs(node, clone, ['async', 'defer', 'integrity', 'crossorigin']);
+        this.copyAttrs(existingTag || node, clone, ['async', 'defer', 'integrity', 'crossorigin']);
         if (existingTag !== undefined) {
             clone.innerHTML = `import('${existingTag.href}');`;
         }
         else {
             clone.innerHTML = `
 try{
-    import('${node.src}');
+    import('${id}');
 }catch(e){
-    import('${this.baseCDN}')
+    import('${this.baseCDN}${id}';
 }
             `;
         }

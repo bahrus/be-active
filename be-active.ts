@@ -15,17 +15,17 @@ export class BeActiveController implements BeActiveActions{
             proxy.baseCDN += '/';
             return; // orchestrator will re-call this method
         }
-        const clone = this.#target.content.cloneNode(true) as DocumentFragment;
-        clone.querySelectorAll('script').forEach(node =>{
+        const content = this.#target.content as DocumentFragment;
+        content.querySelectorAll('script').forEach(node =>{
             this.handleScriptTag(node);
         });
-        clone.querySelectorAll('style').forEach(node =>{
+        content.querySelectorAll('style').forEach(node =>{
             this.handleStyleTag(node);
         });
         this.#target.remove();
     }
 
-    copyAttrs(src: HTMLScriptElement, dest: Element, attrs: string[]){
+    copyAttrs(src: Element, dest: Element, attrs: string[]){
         attrs.forEach(attr =>{
             if(!src.hasAttribute(attr)) return;
             const attrVal = src.getAttribute(attr)!;
@@ -43,17 +43,17 @@ export class BeActiveController implements BeActiveActions{
         const clone = document.createElement('script') as HTMLScriptElement;
         clone.id = id;
         clone.type = 'module';
-        this.copyAttrs(node, clone, ['async', 'defer', 'integrity', 'crossorigin']);
+        this.copyAttrs(existingTag || node, clone, ['async', 'defer', 'integrity', 'crossorigin']);
         if(existingTag !== undefined){
             clone.innerHTML = `import('${existingTag.href}');`;
         }else{
             clone.innerHTML = `
 try{
-    import('${node.src}');
+    import('${id}');
 }catch(e){
-    import('${this.baseCDN}')
+    import('${this.baseCDN}${id}';
 }
-            `
+            `;
         }
         document.head.appendChild(clone);
     }

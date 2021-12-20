@@ -5,10 +5,8 @@ Activate template content.
 
 ```html
 <template be-active>
-    <script id=blah src=blah/blah.js integrity=... crossorigin=anonymous></script>
-    <style id=IndieFlowerFont>
-        @import url(https://fonts.googleapis.com/css?family=Indie+Flower);
-    </style>
+    <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
+    <style id="https://fonts.googleapis.com/css?family=Indie+Flower"></style>
 </template>
 ```
 
@@ -43,15 +41,15 @@ Okay, maybe a plugin or two could do that.
 
 Regardless, the solution *can* already work with both import maps and CDN's.
 
-Each script reference must be a src attribute (no inline imports allowed).  You can add type=module if you wish, but it doesn't matter -- this only works for ES Modules.
+Each script reference must have an id.  Inner inline script will be ignored.  You can add type=module if you wish, but it doesn't matter -- this only works for ES Modules, so that is assumed.
 
-By default, CDN provider [jsdelivr.com](https://www.jsdelivr.com/esm) is used.  However, alternative CDN's, such as cdn.skypack.dev, or unpkg.com or maybe an internal CDN, can be used.
+By default, CDN provider [jsdelivr.com](https://www.jsdelivr.com/esm) is used in the case that import maps fail.  However, alternative CDN's, such as cdn.skypack.dev, or unpkg.com or maybe an internal CDN, can be used.
 
 To specify the alternative CDN, use the `be-active=[id of link tag, like a rel=preconnect]` attribute to specify it.  (However, for unpkg.com, a more complex configuration setting is required. [TODO])
 
-The id is required, and is used in this way:  If the id matches to a link rel=preload (or link rel=anything, really) it will get the href from that link, and ignore the src attribute. Hash integrities will be copied from the link tag.
+The id is required, and is used in two ways:  If the id matches to a link rel=preload (or link rel=anything, really) be-active will get the href from that link. Optional Hash integrities will be copied from the link tag [TODO].  Same with crossorigin settings.
 
-Also, use of an id will block other instances from trying to resolve to something else.  Recommended id is the bare import specifier that is recommended when referencing the resource in code. This helps to avoid cluttering the head tag, which is where the script tags are placed.
+Also, use of an id will block other instances from trying to resolve to something else.  The id shouuld be the bare import specifier that is recommended when referencing the resource in code. This helps to avoid cluttering the head tag, which is where the script tags are placed.
 
 What be-active does:
 
@@ -59,8 +57,8 @@ For each script tag found inside the be-active adorned template:
 
 1.  If the id of the script tag matches a link tag, a dynamic import of the href is added to the head tag.  The link tag is removed.  End of story. [TODO]
 2.  One script tag will be created in the head tag, with the same id (assuming such an id doesn't already exist).
-2.  The src attribute will be turned into a dynamic import inside the head script tag.  However, the import will be inside a try/catch block.
-3.  Should the import fail, in the catch block, the src reference will be prepended with the CDN base url, and that will be tried. An optional postfix parameter will be specifiable.
+2.  The id will be turned into a dynamic import inside the head script tag.  However, the import will be inside a try/catch block.
+3.  Should the import fail, in the catch block, the src reference will be prepended with the CDN base url, and that will be tried. An optional postfix parameter will be specifiable[TODO].
 4.  If the second attempted import fails, it will be logged to the console natively.
 5.  If, in the future, import maps are enhanced to provide an api for resolving (or failing to resolve) a path, then the try catch won't be necessary. [TODO]
 
