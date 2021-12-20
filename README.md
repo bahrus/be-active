@@ -21,9 +21,9 @@ Why?
 
 ## **NBs:** 
 
-Adopting this approach means your JavaScript references **cannot benefit from local bundling tools**.  I just don't see how to do that.
+Adopting this approach means your JavaScript references **cannot benefit from local bundling tools**.  I just don't see how to do that.  Okay, maybe a plugin or two could do that.
 
-The solution *can* work with both import maps and CDN's, however.
+Regardless, the solution *can* work with both import maps and CDN's, however.
 
 Each script reference must be a src attribute (no inline imports allowed).  You can add type=module if you wish, but it doesn't matter -- this only works for ES Modules.
 
@@ -33,13 +33,13 @@ To specify the alternative CDN, use the `be-active=[base path to cdn]` attribute
 
 The id is required, and is used in this way:  If the id matches to a link rel=preload (or link rel=anything, really) it will get the href from that link, and ignore the src attribute. Hash integrities will be copied from the link tag.
 
-Also, id's must be unique across all usages -- to avoid cluttering the head tag (which is where the script tags are placed), only one reference per id will be placed via be-active.
+Also, use of an id will block other instances from trying to resolve to something else.  Recommended id is the bare import specifiy you recommend when referencing the resource in code. This helps to avoid cluttering the head tag, which is where the script tags are placed.
 
 What be-active does:
 
-1.  For each script tag found inside the be-active adorned template, one script tag will be created in the head tag, with the same id.
+1.  For each script tag found inside the be-active adorned template, one script tag will be created in the head tag, with the same id (assuming such an id doesn't already exist).
 2.  The src attribute will be turned into a dynamic import inside the head script tag.  However, the import will be inside a try/catch block.
-3.  Should the import fail, in the catch block, the src reference will be prepended with the CDN backup, and that will be tried. An optional postfix parameter will be specifiable.
+3.  Should the import fail, in the catch block, the src reference will be prepended with the CDN base url, and that will be tried. An optional postfix parameter will be specifiable.
 4.  If the second attempted import fails, it will be logged to the console.
 
 
