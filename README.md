@@ -27,7 +27,7 @@ Activate template content.
 
 ## Priors
 
-Jquery's [load function provides](https://api.jquery.com/load/) support for loading script as well.
+Jquery's [load function](https://api.jquery.com/load/) provides support for loading script as well.
 
 [lazy-imports](https://github.com/Polymer/lazy-imports) also shares similar goals.
 
