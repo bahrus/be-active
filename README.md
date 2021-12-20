@@ -37,9 +37,7 @@ Now with be-active, just include the id:
 </template>
 ```
 
-CDN's will replace the arrow function with a fully qualified url (maybe)? 
 
-Correction - both snowpack and jsdelivr appear to replace import url's with absolute paths.  Hopefully they would do the same with an arrow function.
 
 snowpack turns () => import('be-hive/be-hive.js') into
 
@@ -59,7 +57,7 @@ customElements.whenDefined('be-active').then((ctor) => {
 
 Get the domain from the second argument, extract the stuff after the import(, and before the last )
 
-
+Then there's bundling solutions, that does who knows what (sigh).
 
 Appends each DOM element to head if no matching id found (id optional)
 
