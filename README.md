@@ -33,7 +33,7 @@ To specify the alternative CDN, use the `be-active=[base path to cdn]` attribute
 
 The id is required, and is used in this way:  If the id matches to a link rel=preload (or link rel=anything, really) it will get the href from that link, and ignore the src attribute. Hash integrities will be copied from the link tag.
 
-Also, use of an id will block other instances from trying to resolve to something else.  Recommended id is the bare import specifiy you recommend when referencing the resource in code. This helps to avoid cluttering the head tag, which is where the script tags are placed.
+Also, use of an id will block other instances from trying to resolve to something else.  Recommended id is the bare import specify you recommend when referencing the resource in code. This helps to avoid cluttering the head tag, which is where the script tags are placed.
 
 What be-active does:
 
@@ -41,15 +41,16 @@ What be-active does:
 2.  The src attribute will be turned into a dynamic import inside the head script tag.  However, the import will be inside a try/catch block.
 3.  Should the import fail, in the catch block, the src reference will be prepended with the CDN base url, and that will be tried. An optional postfix parameter will be specifiable.
 4.  If the second attempted import fails, it will be logged to the console.
+5.  If, in the future, import maps are enhanced to provide an api for resolving (or failing to resolve) a path, then the try catch won't be necessary.
 
 
 
 
-## Example 2 -- Lazy [TODO]
+## Example 2 -- Lazy
+
+Support be-observant still binding.
 
 ## Example 2  Support Media Queries 
 
-## Example 3  Support link preload tags.
 
-If same id found as a link rel=preload tag, insert that script instead.
 
