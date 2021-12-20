@@ -13,11 +13,21 @@ Activate template content.
 </template>
 ```
 
-Why?  
+## Why?  
 
-1.  Outside shadow DOM, when a script tag is inserted, the browser "picks it up" and loads the dependency.  Not so inside Shadow DOM.  This strangely inconsistent behavior can be inconvenient, especially if we want to lazy load / prioritize how scripts are loaded.
+1.  Outside shadow DOM, when a script tag is inserted, the browser "picks it up" and loads the dependency.  Not so inside Shadow DOM (at least if the tag was cloned from a template).  This strangely inconsistent behavior can be inconvenient, especially if we want to lazy load / prioritize how scripts are loaded.
 
 2.  Font dependencies of a web component have to be added outside of any shadow DOM.
+
+3.  If a web component separates the JS payload from the file containing HTML (like a JSON file or an actual HTML file), it is convenient to list the dependencies in the file that actually uses them.
+
+4.  Lazy loading dependencies becomes much more natural if the dependencies are closely positioned to their actual use.
+
+5.  Support for hash integrities and for bundled CDN resources and for preloading resourcing is missing from import maps.
+
+## Priors
+
+be-active is a declarative approach to [xtal-sip](https://github.com/bahrus/xtal-sip).
 
 ## **NBs:** 
 
@@ -44,13 +54,19 @@ What be-active does:
 5.  If, in the future, import maps are enhanced to provide an api for resolving (or failing to resolve) a path, then the try catch won't be necessary.
 
 
+## Options [TODO]
 
+basePath - specify an alternative CDN
 
-## Example 2 -- Lazy
+data-is-link-ref-only applied to subset of individual script elements - if present, script tag will only use that (bundled) reference if it finds that link rel=preload/lazy.  Otherwise, does nothing.
+
+data-if-no-bundled-link-ref="link-ref-id" - if present, script tag will only add this (unbundled) reference if no link-ref matching the value is found.  Otherwise, does nothing.
+
+## Example 2 -- Lazy Loading [TODO]
 
 Support be-observant still binding.
 
-## Example 2  Support Media Queries 
+## Example 3  Support Media Queries [TODO]
 
 
 
