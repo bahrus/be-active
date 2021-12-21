@@ -2,8 +2,6 @@ import {BeDecoratedProps, define} from 'be-decorated/be-decorated.js';
 import {BeActiveActions, BeActiveVirtualProps, BeActiveProps} from './types';
 import {register} from 'be-hive/register.js';
 
-
-
 export class BeActiveController implements BeActiveActions{
     #target!: HTMLTemplateElement;
     intro(proxy: HTMLTemplateElement & BeActiveVirtualProps, target: HTMLTemplateElement, beDecorProps: BeDecoratedProps){
@@ -80,13 +78,11 @@ define<BeActiveProps & BeDecoratedProps<BeActiveProps, BeActiveActions>, BeActiv
                 baseCDN: 'https://esm.run/',
             },
             primaryProp: 'baseCDN',
-            virtualProps: ['baseCDN'],
+            virtualProps: ['baseCDN', 'baseCDNRef', 'supportLazy'],
             intro: 'intro'
         },
         actions:{
-            onCDN: { //TODO:  enhance trans-render/CE.js so can just set onCDN: 'baseCDN'
-                ifAllOf: ['baseCDN'],
-            }
+            onCDN: 'baseCDN',
         }
     },
     complexPropDefaults:{

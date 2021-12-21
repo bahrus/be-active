@@ -45,7 +45,7 @@ Each script reference must have an id.  Inner inline script will be ignored.  Yo
 
 By default, CDN provider [jsdelivr.com](https://www.jsdelivr.com/esm) is used in the case that import maps fail.  However, alternative CDN's, such as cdn.skypack.dev, or unpkg.com or maybe an internal CDN, can be used.
 
-To specify the alternative CDN, use the `be-active=[id of link tag, like a rel=preconnect]` attribute to specify it.  (However, for unpkg.com, a more complex configuration setting is required. [TODO])
+use the `be-active=[id of link tag, like a rel=preconnect]` attribute to specify it.  (However, for unpkg.com, a more complex configuration setting is required. [TODO])
 
 The id is required, and is used in two ways:  If the id matches to a link rel=preload (or link rel=anything, really) be-active will get the href from that link. Optional Hash integrities will be copied from the link tag [TODO].  Same with crossorigin settings.
 
@@ -64,13 +64,36 @@ For each script tag found inside the be-active adorned template:
 
 For each style tag:  [TODO]
 
-## Options [TODO]
+## Options
 
-baseLinkRef - specify an id of alternative CDN link rel=preconnect.
+Specifying an alternative CDN base url:
 
-data-is-link-ref-only applied to subset of individual script elements - if present, script tag will only use that (bundled) reference if it finds that link rel=preload/lazy tag.  Otherwise, does nothing.
+```html
+<template be-active=https://cdn.skypack.dev>
+    <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
+    <style id="https://fonts.googleapis.com/css?family=Indie+Flower"></style>
+</template>
+```
 
-data-only-if-no-bundled-link-ref="link-ref-id" - if present, script tag will only add this (unbundled) reference if no link-ref matching the value is found.  Otherwise, does nothing.
+baseLinkRef - specify an id of alternative CDN link rel=preconnect. [TODO]
+
+CDNpostFix - specify a string to append to end of CDN url. [TODO]
+
+Example:
+
+```html
+<template be-active='{
+    "baseCDN": "https://unpkg.com/",
+    "CDNPostfix": "?module"
+}>
+    <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
+    <style id="https://fonts.googleapis.com/css?family=Indie+Flower"></style>
+</template>
+```
+
+data-is-link-ref-only applied to subset of individual script elements - if present, script tag will only use that (bundled) reference if it finds that link rel=preload/lazy tag.  Otherwise, does nothing. [TODO]
+
+data-only-if-no-bundled-link-ref="link-ref-id" - if present, script tag will only add this (unbundled) reference if no link-ref matching the value is found.  Otherwise, does nothing.[TODO]
 
 ## Part I -- Preemptive
 

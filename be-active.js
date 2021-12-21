@@ -70,7 +70,7 @@ define({
                 baseCDN: 'https://esm.run/',
             },
             primaryProp: 'baseCDN',
-            virtualProps: ['baseCDN'],
+            virtualProps: ['baseCDN', 'baseCDNRef', 'supportLazy'],
             intro: 'intro'
         },
         actions: {
