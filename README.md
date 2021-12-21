@@ -22,6 +22,8 @@ Activate template content.
 
 5.  Support for hash integrities and for bundled CDN resources and for preloading resourcing is missing from import maps.
 
+6.  This allows HTML streams to be used both as standalone web pages and also work as part of an embedded stream within the app / page.
+
 ## Priors
 
 Jquery's [load function](https://api.jquery.com/load/) provides support for loading script as well.
@@ -35,9 +37,9 @@ It is also a non-blasphemous alternative to part of what [templ-mount](https://g
 
 ## **NBs:** 
 
-Adopting this approach means your JavaScript references **cannot benefit from local bundling tools**.  I just don't see how to do that.  
+Adopting this approach means, for now, your JavaScript references **cannot benefit from local bundling tools**.  
 
-Okay, maybe a plugin or two could do that.
+Plugins for bundling tools are not yet available.
 
 Regardless, the solution *can* already work with both import maps and CDN's.
 
@@ -45,11 +47,9 @@ Each script reference must have an id.  Inner inline script will be ignored.  Yo
 
 By default, CDN provider [jsdelivr.com](https://www.jsdelivr.com/esm) is used in the case that import maps fail.  However, alternative CDN's, such as cdn.skypack.dev, or unpkg.com or maybe an internal CDN, can be used.
 
-use the `be-active=[id of link tag, like a rel=preconnect]` attribute to specify it.  (However, for unpkg.com, a more complex configuration setting is required. [TODO])
-
 The id is required, and is used in two ways:  If the id matches to a link rel=preload (or link rel=anything, really) be-active will get the href from that link. Optional Hash integrities will be copied from the link tag [TODO].  Same with crossorigin settings.
 
-Also, use of an id will block other instances from trying to resolve to something else.  The id shouuld be the bare import specifier that is recommended when referencing the resource in code. This helps to avoid cluttering the head tag, which is where the script tags are placed.
+Also, use of an id will block other instances from trying to resolve to something else.  The id should be the bare import specifier that is recommended when referencing the resource in code. This helps to avoid cluttering the head tag, which is where the script tags are placed.
 
 What be-active does:
 
@@ -68,6 +68,25 @@ For each style tag:  [TODO]
 
 Specifying an alternative CDN base url:
 
+Approach 1:
+
+```html
+<html>
+    <head>
+        <link rel=preconnect id=be-active/baseCDN href=https://cdn.skypack.dev>
+    </head>
+<body>
+    ...
+    <template be-active>
+        <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
+        <style id="https://fonts.googleapis.com/css?family=Indie+Flower"></style>
+    </template>
+</body>
+</html>
+```
+
+Approach 2:
+
 ```html
 <template be-active=https://cdn.skypack.dev>
     <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
@@ -75,9 +94,11 @@ Specifying an alternative CDN base url:
 </template>
 ```
 
-baseLinkRef - specify an id of alternative CDN link rel=preconnect. [TODO]
+Approach 2 might be better if only one CDN supports some JS language feature you are using.  Adopt approach 1 when the others catch up.
 
-CDNpostFix - specify a string to append to end of CDN url. [TODO]
+Note that with approach 1, it affects all components that rely on be-active, where the CDN base url isn't explicitly specified.
+
+CDNpostFix - specify a string to append to end of CDN url.
 
 Example:
 
