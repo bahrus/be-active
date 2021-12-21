@@ -85,7 +85,7 @@ Example:
 <template be-active='{
     "baseCDN": "https://unpkg.com/",
     "CDNPostfix": "?module"
-}>
+}'>
     <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
     <style id="https://fonts.googleapis.com/css?family=Indie+Flower"></style>
 </template>
