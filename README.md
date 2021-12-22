@@ -5,7 +5,7 @@ Activate template content.
 ```html
 <template be-active>
     <script id=blah/blah.js></script>
-    <link id= rel=stylesheet href="https://fonts.googleapis.com/css?family=Indie+Flower">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower">
 </template>
 ```
 
@@ -63,10 +63,11 @@ For each script tag found inside the be-active adorned template:
 4.  If the second attempted import fails, it will be logged to the console natively.
 5.  If, in the future, import maps are enhanced to provide an api for resolving (or failing to resolve) a path, then the try catch won't be necessary. [TODO]
 
-For each style tag:
+For each link tag:
 
-1.  If the id href of the link already exists as a link rel=stylesheet outside any shadow DOM, do nothing. [TODO]
-2.  One link tag will be created in the head tag, with the same id. [TODO]
+1.  If the href of the link already exists as an id of a link rel=stylesheet outside any shadow DOM, do nothing. [TODO]
+2.  If the href of the link inside the template matches the id of a link rel=preload outside any shadow DOM, get the href value of the link tag, and change the value of the rel from preload to stylesheet.[TODO]
+3.  Else clone the link tag inside the template, copy the id attribute to the href, insert in the head tag [TODO]
 
 ## Options
 
