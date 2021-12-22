@@ -17,8 +17,8 @@ export class BeActiveController implements BeActiveActions{
         content.querySelectorAll('script').forEach(node =>{
             this.handleScriptTag(node);
         });
-        content.querySelectorAll('style').forEach(node =>{
-            this.handleStyleTag(node);
+        content.querySelectorAll('link').forEach(node =>{
+            this.handleLinkTag(node);
         });
         this.#target.remove();
     }
@@ -41,7 +41,7 @@ export class BeActiveController implements BeActiveActions{
         const clone = document.createElement('script') as HTMLScriptElement;
         clone.id = id;
         clone.type = 'module';
-        this.copyAttrs(existingTag || node, clone, ['async', 'defer', 'integrity', 'crossorigin']);
+        this.copyAttrs(existingTag || node, clone, ['async', 'defer', 'integrity', 'crossorigin', 'referrerpolicy']);
         if(!this.noCrossOrigin && !clone.crossOrigin){clone.crossOrigin = 'anonymous';}
         if(existingTag !== undefined){
             clone.innerHTML = `import('${existingTag.href}');`;
@@ -56,11 +56,11 @@ try{
         document.head.appendChild(clone);
     }
 
-    handleStyleTag(node: HTMLStyleElement){
+    handleLinkTag(node: HTMLLinkElement){
         const {id} = node;
         if(!id) throw 'MIA';  //Missing Id Attribute
         const existingTag = (<any>self)[id] as HTMLLinkElement;
-        if(existingTag !== undefined && existingTag.localName === 'style') return;
+        if(existingTag !== undefined && existingTag.rel === 'stylesheet') return;
         const clone = document.createElement('link') as HTMLLinkElement;
         clone.id = id;
         clone.rel = 'stylesheet';
@@ -69,7 +69,7 @@ try{
         if(existingTag !== undefined){
             clone.href = existingTag.href;
         }else{
-            clone.href = this.baseCDN + id + this.CDNpostFix;
+            clone.href = node.href;
         }
         document.head.appendChild(clone);
     }

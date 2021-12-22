@@ -4,8 +4,8 @@ Activate template content.
 
 ```html
 <template be-active>
-    <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
-    <link rel=stylesheet id="https://fonts.googleapis.com/css?family=Indie+Flower">
+    <script id=blah/blah.js></script>
+    <link id= rel=stylesheet href="https://fonts.googleapis.com/css?family=Indie+Flower">
 </template>
 ```
 
@@ -17,11 +17,13 @@ Activate template content.
 
 3.  If a web component separates the JS payload from the file containing HTML (like a JSON file or an actual HTML file), it is convenient to list the dependencies in the file that actually uses them.
 
-4.  Lazy loading dependencies becomes much more natural if the dependencies are closely positioned to their actual use.  So even if HTML Modules become a thing, this could still be useful in that context.  
+4.  Lazy loading dependencies becomes much more natural if the dependencies are closely positioned to their actual use.  So even if HTML Modules become a thing, this could still be useful in that context. 
 
-5.  Support for hash integrities and for bundled CDN resources and for preloading resourcing is missing from import maps.
+5.  Added plus of placing dependencies close to their use:  Developer can avoid vertiginousness, and not have to scroll up and down so much while adding imports.
 
-6.  This allows HTML streams to be used both as standalone web pages and also work as part of an embedded stream within the app / page.
+6.  Support for hash integrities and for bundled CDN resources and for preloading resourcing is missing from import maps.
+
+7.  This allows HTML streams to be used both as standalone web pages and also work as part of an embedded stream within the app / page.
 
 ## Priors
 
@@ -63,7 +65,7 @@ For each script tag found inside the be-active adorned template:
 
 For each style tag:
 
-1.  If the id of the link already exists outside any shadow DOM, do nothing. [TODO]
+1.  If the id href of the link already exists as a link rel=stylesheet outside any shadow DOM, do nothing. [TODO]
 2.  One link tag will be created in the head tag, with the same id. [TODO]
 
 ## Options
@@ -81,7 +83,7 @@ Approach 1:
     ...
     <template be-active>
         <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
-        <style id="https://fonts.googleapis.com/css?family=Indie+Flower"></style>
+        <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Indie+Flower">
     </template>
 </body>
 </html>
@@ -92,7 +94,7 @@ Approach 2:
 ```html
 <template be-active=https://cdn.skypack.dev>
     <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
-    <style id="https://fonts.googleapis.com/css?family=Indie+Flower"></style>
+    <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Indie+Flower">
 </template>
 ```
 
@@ -110,7 +112,7 @@ Example:
     "CDNPostfix": "?module"
 }'>
     <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
-    <style id="https://fonts.googleapis.com/css?family=Indie+Flower"></style>
+    <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Indie+Flower">
 </template>
 ```
 
@@ -124,10 +126,8 @@ Recall our first example:
 
 ```html
 <template be-active>
-    <script id=blah src=blah/blah.js integrity=... crossorigin=anonymous></script>
-    <style id=IndieFlowerFont>
-        @import url(https://fonts.googleapis.com/css?family=Indie+Flower);
-    </style>
+    <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
+    <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Indie+Flower">
 </template>
 ```
 
