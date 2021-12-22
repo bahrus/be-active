@@ -57,19 +57,17 @@ try{
     }
 
     handleLinkTag(node: HTMLLinkElement){
-        const {id} = node;
-        if(!id) throw 'MIA';  //Missing Id Attribute
-        const existingTag = (<any>self)[id] as HTMLLinkElement;
-        if(existingTag !== undefined){
+        const {href} = node;
+        if(!href) throw 'MIA';  //Missing Id Attribute
+        const existingTag = (<any>self)[href] as HTMLLinkElement;
+        if(existingTag !== undefined && existingTag.rel){
             if(existingTag.rel === 'stylesheet') return;
             existingTag.rel = 'stylesheet';
             return;
         }
         
         const clone = document.createElement('link') as HTMLLinkElement;
-        clone.id = id;
-        clone.rel = 'stylesheet';
-        clone.href = id;
+        Object.assign(clone, {id: href, rel: 'stylesheet', href});
         this.copyAttrs(existingTag || node, clone, ['integrity', 'crossorigin']);
         //if(!this.noCrossOrigin && !clone.crossOrigin){clone.crossOrigin = 'anonymous';}
         document.head.appendChild(clone);
