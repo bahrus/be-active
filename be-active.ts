@@ -60,17 +60,18 @@ try{
         const {id} = node;
         if(!id) throw 'MIA';  //Missing Id Attribute
         const existingTag = (<any>self)[id] as HTMLLinkElement;
-        if(existingTag !== undefined && existingTag.rel === 'stylesheet') return;
+        if(existingTag !== undefined){
+            if(existingTag.rel === 'stylesheet') return;
+            existingTag.rel = 'stylesheet';
+            return;
+        }
+        
         const clone = document.createElement('link') as HTMLLinkElement;
         clone.id = id;
         clone.rel = 'stylesheet';
+        clone.href = id;
         this.copyAttrs(existingTag || node, clone, ['integrity', 'crossorigin']);
-        if(!this.noCrossOrigin && !clone.crossOrigin){clone.crossOrigin = 'anonymous';}
-        if(existingTag !== undefined){
-            clone.href = existingTag.href;
-        }else{
-            clone.href = node.href;
-        }
+        //if(!this.noCrossOrigin && !clone.crossOrigin){clone.crossOrigin = 'anonymous';}
         document.head.appendChild(clone);
     }
 }

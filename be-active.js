@@ -14,8 +14,8 @@ export class BeActiveController {
         content.querySelectorAll('script').forEach(node => {
             this.handleScriptTag(node);
         });
-        content.querySelectorAll('style').forEach(node => {
-            this.handleStyleTag(node);
+        content.querySelectorAll('link').forEach(node => {
+            this.handleLinkTag(node);
         });
         this.#target.remove();
     }
@@ -39,7 +39,10 @@ export class BeActiveController {
         const clone = document.createElement('script');
         clone.id = id;
         clone.type = 'module';
-        this.copyAttrs(existingTag || node, clone, ['async', 'defer', 'integrity', 'crossorigin']);
+        this.copyAttrs(existingTag || node, clone, ['async', 'defer', 'integrity', 'crossorigin', 'referrerpolicy']);
+        if (!this.noCrossOrigin && !clone.crossOrigin) {
+            clone.crossOrigin = 'anonymous';
+        }
         if (existingTag !== undefined) {
             clone.innerHTML = `import('${existingTag.href}');`;
         }
@@ -53,7 +56,24 @@ try{
         }
         document.head.appendChild(clone);
     }
-    handleStyleTag(node) {
+    handleLinkTag(node) {
+        const { id } = node;
+        if (!id)
+            throw 'MIA'; //Missing Id Attribute
+        const existingTag = self[id];
+        if (existingTag !== undefined) {
+            if (existingTag.rel === 'stylesheet')
+                return;
+            existingTag.rel = 'stylesheet';
+            return;
+        }
+        const clone = document.createElement('link');
+        clone.id = id;
+        clone.rel = 'stylesheet';
+        clone.href = id;
+        this.copyAttrs(existingTag || node, clone, ['integrity', 'crossorigin']);
+        //if(!this.noCrossOrigin && !clone.crossOrigin){clone.crossOrigin = 'anonymous';}
+        document.head.appendChild(clone);
     }
 }
 const tagName = 'be-active';
@@ -70,9 +90,10 @@ define({
                 baseCDN: self['be-active/baseCDN']?.href || 'https://esm.run/',
                 supportLazy: false,
                 CDNpostFix: '',
+                noCrossOrigin: false,
             },
             primaryProp: 'baseCDN',
-            virtualProps: ['baseCDN', 'supportLazy', 'CDNpostFix'],
+            virtualProps: ['baseCDN', 'supportLazy', 'CDNpostFix', 'noCrossOrigin'],
             intro: 'intro'
         },
         actions: {
