@@ -65,7 +65,7 @@ For each script tag found inside the be-active adorned template:
 
 For each link tag:
 
-1.  If the href of the link already exists as an id of a link rel=stylesheet outside any shadow DOM, do nothing. [TODO]
+1.  If the href of the link already exists as an id of a link rel=stylesheet outside any shadow DOM, do nothing.
 2.  If the href of the link inside the template matches the id of a link rel=preload outside any shadow DOM, get the href value of the link tag, and change the value of the rel from preload to stylesheet.[TODO]
 3.  Else clone the link tag inside the template, copy the id attribute to the href, insert in the head tag [TODO]
 
