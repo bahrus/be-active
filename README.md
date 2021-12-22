@@ -2,11 +2,10 @@
 
 Activate template content.
 
-
 ```html
 <template be-active>
     <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
-    <style id="https://fonts.googleapis.com/css?family=Indie+Flower"></style>
+    <link rel=stylesheet id="https://fonts.googleapis.com/css?family=Indie+Flower">
 </template>
 ```
 
@@ -47,7 +46,7 @@ Each script reference must have an id.  Inner inline script will be ignored.  Yo
 
 By default, CDN provider [jsdelivr.com](https://www.jsdelivr.com/esm) is used in the case that import maps fail.  However, alternative CDN's, such as cdn.skypack.dev, or unpkg.com or maybe an internal CDN, can be used.
 
-The id is required, and is used in two ways:  If the id matches to a link rel=preload (or link rel=anything, really) be-active will get the href from that link. Optional Hash integrities will be copied from the link tag [TODO].  Same with crossorigin settings.
+The required id is used in two ways:  If the id matches to a link rel=preload (or link rel=anything, really) be-active will get the href from that link. Optional hash integrities will be copied from the link tag.  Same with crossorigin settings.
 
 Also, use of an id will block other instances from trying to resolve to something else.  The id should be the bare import specifier that is recommended when referencing the resource in code. This helps to avoid cluttering the head tag, which is where the script tags are placed.
 
@@ -55,18 +54,21 @@ What be-active does:
 
 For each script tag found inside the be-active adorned template: 
 
-1.  If the id of the script tag matches a link tag, a dynamic import of the href is added to the head tag.  The link tag is removed.  End of story. [TODO]
+1.  If the id of the script tag matches a link tag, a dynamic import of the href is added to the head tag.  The link tag is removed.  End of story.
 2.  One script tag will be created in the head tag, with the same id (assuming such an id doesn't already exist).
 2.  The id will be turned into a dynamic import inside the head script tag.  However, the import will be inside a try/catch block.
-3.  Should the import fail, in the catch block, the src reference will be prepended with the CDN base url, and that will be tried. An optional postfix parameter will be specifiable[TODO].
+3.  Should the import fail, in the catch block, the src reference will be prepended with the CDN base url, and that will be tried. An optional postfix parameter will be specifiable.
 4.  If the second attempted import fails, it will be logged to the console natively.
 5.  If, in the future, import maps are enhanced to provide an api for resolving (or failing to resolve) a path, then the try catch won't be necessary. [TODO]
 
-For each style tag:  [TODO]
+For each style tag:
+
+1.  If the id of the link already exists outside any shadow DOM, do nothing. [TODO]
+2.  One link tag will be created in the head tag, with the same id. [TODO]
 
 ## Options
 
-Specifying an alternative CDN base url:
+Specifying an alternative CDN base url (only applies to script references):
 
 Approach 1:
 

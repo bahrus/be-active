@@ -48,7 +48,7 @@ export class BeActiveController {
 try{
  import('${id}');
 }catch(e){
- import('${this.baseCDN}${id}');
+ import('${this.baseCDN}${id}${this.CDNpostFix}');
 }`;
         }
         document.head.appendChild(clone);
@@ -67,16 +67,16 @@ define({
             upgrade,
             forceVisible: ['template'],
             proxyPropDefaults: {
-                baseCDN: 'https://esm.run/',
+                baseCDN: self['be-active/baseCDN']?.href || 'https://esm.run/',
+                supportLazy: false,
+                CDNpostFix: '',
             },
             primaryProp: 'baseCDN',
-            virtualProps: ['baseCDN', 'baseCDNRef', 'supportLazy'],
+            virtualProps: ['baseCDN', 'supportLazy', 'CDNpostFix'],
             intro: 'intro'
         },
         actions: {
-            onCDN: {
-                ifAllOf: ['baseCDN'],
-            }
+            onCDN: 'baseCDN',
         }
     },
     complexPropDefaults: {

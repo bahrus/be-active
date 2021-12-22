@@ -42,6 +42,7 @@ export class BeActiveController implements BeActiveActions{
         clone.id = id;
         clone.type = 'module';
         this.copyAttrs(existingTag || node, clone, ['async', 'defer', 'integrity', 'crossorigin']);
+        if(!this.noCrossOrigin && !clone.crossOrigin){clone.crossOrigin = 'anonymous';}
         if(existingTag !== undefined){
             clone.innerHTML = `import('${existingTag.href}');`;
         }else{
@@ -56,6 +57,21 @@ try{
     }
 
     handleStyleTag(node: HTMLStyleElement){
+        const {id} = node;
+        if(!id) throw 'MIA';  //Missing Id Attribute
+        const existingTag = (<any>self)[id] as HTMLLinkElement;
+        if(existingTag !== undefined && existingTag.localName === 'style') return;
+        const clone = document.createElement('link') as HTMLLinkElement;
+        clone.id = id;
+        clone.rel = 'stylesheet';
+        this.copyAttrs(existingTag || node, clone, ['integrity', 'crossorigin']);
+        if(!this.noCrossOrigin && !clone.crossOrigin){clone.crossOrigin = 'anonymous';}
+        if(existingTag !== undefined){
+            clone.href = existingTag.href;
+        }else{
+            clone.href = this.baseCDN + id + this.CDNpostFix;
+        }
+        document.head.appendChild(clone);
     }
 }
 
@@ -78,9 +94,10 @@ define<BeActiveProps & BeDecoratedProps<BeActiveProps, BeActiveActions>, BeActiv
                 baseCDN: (<any>self)['be-active/baseCDN']?.href || 'https://esm.run/',
                 supportLazy: false,
                 CDNpostFix: '',
+                noCrossOrigin: false,
             },
             primaryProp: 'baseCDN',
-            virtualProps: ['baseCDN', 'supportLazy', 'CDNpostFix'],
+            virtualProps: ['baseCDN', 'supportLazy', 'CDNpostFix', 'noCrossOrigin'],
             intro: 'intro'
         },
         actions:{

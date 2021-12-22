@@ -3,6 +3,7 @@ import {BeDecoratedProps} from 'be-decorated/types';
 export interface BeActiveVirtualProps{
     baseCDN: string;
     CDNpostFix: string;
+    noCrossOrigin: boolean;
     //baseCDNRef:  string;
     supportLazy: boolean;
 }
