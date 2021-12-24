@@ -48,9 +48,11 @@ export class BeActiveController implements BeActiveActions{
         }else{
             clone.innerHTML = `
 try{
- import('${id}');
+ import('${id}').catch(e=>{
+    import('${this.baseCDN}${id}${this.CDNpostFix}');
+ });
 }catch(e){
- import('${this.baseCDN}${id}${this.CDNpostFix}');
+ 
 }`;
         }
         document.head.appendChild(clone);
