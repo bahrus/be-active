@@ -117,6 +117,14 @@ Example:
 </template>
 ```
 
+## Specify version for CDN backup [TODO]
+
+```html
+<template>
+    <script data-version=1.2.34 id=blah/blah.js integrity=... crossorigin=anonymous></script>
+</template>
+```
+
 data-is-link-ref-only applied to subset of individual script elements - if present, script tag will only use that (bundled) reference if it finds that link rel=preload/lazy tag.  Otherwise, does nothing. [TODO]
 
 data-only-if-no-bundled-link-ref="link-ref-id" - if present, script tag will only add this (unbundled) reference if no link-ref matching the value is found.  Otherwise, does nothing.[TODO]

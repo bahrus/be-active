@@ -46,10 +46,16 @@ export class BeActiveController implements BeActiveActions{
         if(existingTag !== undefined){
             clone.innerHTML = `import('${existingTag.href}');`;
         }else{
+            let cdnPath = id;
+            if(node.dataset.version !== undefined){
+                const split = id.split('/');
+                split[0] += `@${node.dataset.version}`;
+                cdnPath = split.join('/');
+            }
             clone.innerHTML = `
 try{
  import('${id}').catch(e=>{
-    import('${this.baseCDN}${id}${this.CDNpostFix}');
+    import('${this.baseCDN}${cdnPath}${this.CDNpostFix}');
  });
 }catch(e){
  
