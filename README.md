@@ -117,7 +117,7 @@ Example:
 </template>
 ```
 
-## Specify version for CDN backup [TODO]
+## Specify version for CDN backup
 
 ```html
 <template>
