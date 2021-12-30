@@ -66,7 +66,7 @@ For each script tag found inside the be-active adorned template:
 For each link tag:
 
 1.  If the href of the link already exists as an id of a link rel=stylesheet outside any shadow DOM, do nothing.
-2.  If the href of the link inside the template matches the id of a link rel=preload outside any shadow DOM, get the href value of the link tag, and change the value of the rel from preload to stylesheet.
+2.  If the href of the link inside the template matches the id of a link rel=preload outside any shadow DOM, change the value of the rel from preload to stylesheet.
 3.  Else clone the link tag inside the template, copy the href attribute to the id, insert in the head tag 
 
 ## Options
@@ -152,7 +152,7 @@ Recall our first example:
 
 ```html
 <template be-active>
-    <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
+    <script id=blah/blah.js></script>
     <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Indie+Flower">
 </template>
 ```
