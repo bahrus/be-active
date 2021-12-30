@@ -32,8 +32,11 @@ export class BeActiveController implements BeActiveActions{
     }
 
     handleScriptTag(node: HTMLScriptElement){
-        const {id} = node;
+        const {id, dataset} = node;
         if(!id) throw 'MIA';  //Missing Id Attribute
+        if(dataset.for !== undefined){
+            if(customElements.get(dataset.for) !== undefined) return;
+        }
         const existingTag = (<any>self)[id] as HTMLLinkElement;
         if(existingTag !== undefined && existingTag.localName === 'script') return;
         //TODO -- if no existingTag, but dom content not fully loaded, have to wait (for lazy support)

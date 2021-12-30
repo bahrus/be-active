@@ -28,9 +28,13 @@ export class BeActiveController {
         });
     }
     handleScriptTag(node) {
-        const { id } = node;
+        const { id, dataset } = node;
         if (!id)
             throw 'MIA'; //Missing Id Attribute
+        if (dataset.for !== undefined) {
+            if (customElements.get(dataset.for) !== undefined)
+                return;
+        }
         const existingTag = self[id];
         if (existingTag !== undefined && existingTag.localName === 'script')
             return;
