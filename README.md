@@ -134,15 +134,15 @@ data-only-if-no-bundled-link-ref="link-ref-id" - if present, script tag will onl
 
 ##  Block duplicate web component references
 
-Normally, if web components are using ES6 module, and all users of the dependency use Es6 modules syntax, and all resolve to the same version, then there is no extra network load imposed on the browser.  So developers don't need to worry about including import statements to libraries when in fact in some deployment scenarios, those references will already be imported from third party components.  No extra downloads occur.
+Normally, if web components are using ES modules, and all users of the dependency use ES modules syntax, and all resolve to the same version, then there is no extra network load imposed on the browser.  So developers don't need to worry about including import statements to libraries when in fact in some deployment scenarios, those references will already be imported from third party components.  No extra downloads occur.
 
-But there are scenarios where a web component dependency may be defined in more than way -- for example a web component provides both an SSR/HTML reference, and an alternative JS reference.  
+But there are scenarios where a web component dependency may be defined in more than one way -- for example a web component provides both an SSR/HTML reference, and an alternative JS reference.  
 
 In that case, we could end up doubling the network load, potentially seeing errors or warnings about multiple web component registrations with the same name, etc.
 
 To minimize the chances of this happening, add an additional optional attribute to the script tag:
 
-<script id=blah/blah.js data-for-defining=blah-blah integrity=... crossorigin=anonymous></script>
+<script id=blah/blah.js data-for=blah-blah integrity=... crossorigin=anonymous></script>
 
 be-active will check before requesting the resource that there is no web component already registered with name "blah-blah", and if so, avoid doing anything. 
 
