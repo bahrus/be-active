@@ -21,7 +21,7 @@ Activate template content.
 
 5.  Added plus of placing dependencies close to their use:  Developer can avoid vertiginousness, and not have to scroll up and down so much while adding imports.
 
-6.  Support for hash integrities and for bundled CDN resources and for preloading resourcing is missing from import maps.
+6.  Support for hash integrities and for bundled CDN resources and for preloading resources is missing from import maps.
 
 7.  This allows HTML streams to be used both as standalone web pages and also work as part of an embedded stream within the app / page.
 
@@ -132,7 +132,7 @@ data-only-if-no-bundled-link-ref="link-ref-id" - if present, script tag will onl
 
 -->
 
-##  Block duplicate web component references [TODO]
+##  Block duplicate web component references
 
 Normally, if web components are using ES modules, and all users of the dependency use ES modules syntax, and all resolve to the same version, then there is no extra network load imposed on the browser.  So developers don't need to worry about including import statements to libraries when in fact in some deployment scenarios, those references will already be imported from third party components.  No extra downloads occur.
 
@@ -146,22 +146,9 @@ To minimize the chances of this happening, add an additional optional attribute 
 
 be-active will check before requesting the resource that there is no web component already registered with name "blah-blah", and if so, avoid doing anything. 
 
-## Part I -- Preemptive
+## Lazy Loading [TODO]
 
-Recall our first example:
-
-```html
-<template be-active>
-    <script id=blah/blah.js></script>
-    <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Indie+Flower">
-</template>
-```
-
-## Example 2 -- Lazy Loading [TODO]
-
-Support be-observant style binding.
-
-## Example 3  Support Media Queries [TODO]
+## Media Queries [TODO]
 
 
 
