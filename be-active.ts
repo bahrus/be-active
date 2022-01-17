@@ -14,7 +14,14 @@ export class BeActiveController implements BeActiveActions{
             return; // orchestrator will re-call this method
         }
         const content = this.#target.content as DocumentFragment;
-        content.querySelectorAll('script').forEach(node =>{
+        content.querySelectorAll('script').forEach(async node =>{
+            const when = node.dataset.when;
+            if(when !== undefined){
+                const split = when.split(',');
+                for(const name of split){
+                    await customElements.whenDefined(name);
+                }
+            }
             this.handleScriptTag(node);
         });
         content.querySelectorAll('link').forEach(node =>{

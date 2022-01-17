@@ -132,6 +132,15 @@ data-only-if-no-bundled-link-ref="link-ref-id" - if present, script tag will onl
 
 -->
 
+## Prioritize via waiting
+
+Each script tag can have a comma delimited list of web component definitions it should wait for before loading.
+
+```html
+<script when=my-custom-element-1,my-custom-element-2>
+```
+
+
 ##  Block duplicate web component references
 
 Normally, if web components are using ES modules, and all users of the dependency use ES modules syntax, and all resolve to the same version, then there is no extra network load imposed on the browser.  So developers don't need to worry about including import statements to libraries when in fact in some deployment scenarios, those references will already be imported from third party components.  No extra downloads occur.
