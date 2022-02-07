@@ -9,7 +9,7 @@
 		"strict": true,
 	},
 	"files":[
-		"be-active.ts"
+		"index.ts"
 	],
 	"exclude":[
 		"build",
