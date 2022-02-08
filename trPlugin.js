@@ -8,6 +8,7 @@ export const trPlugin = {
             supportLazy: false,
             CDNpostFix: '',
             noCrossOrigin: false,
+            isPlugin: true,
         };
         if (val.startsWith('{')) {
             const overrides = JSON.parse(val);

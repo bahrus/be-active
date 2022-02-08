@@ -6,6 +6,7 @@ export interface BeActiveVirtualProps{
     noCrossOrigin: boolean;
     //baseCDNRef:  string;
     supportLazy: boolean;
+    isPlugin: boolean;
 }
 
 export interface BeActiveProps extends BeActiveVirtualProps{

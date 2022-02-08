@@ -1,7 +1,13 @@
-export const onCDN = ({ baseCDN, proxy }) => {
+export const onCDN = (controller) => {
+    let { baseCDN, proxy, isPlugin } = controller;
     if (!baseCDN.endsWith('/')) {
-        proxy.baseCDN += '/';
-        return; // orchestrator will re-call this method
+        if (isPlugin) {
+            baseCDN += '/';
+        }
+        else {
+            proxy.baseCDN += '/';
+            return; // orchestrator will re-call this method
+        }
     }
     const content = proxy.content;
     content.querySelectorAll('script').forEach(async (node) => {
@@ -12,7 +18,7 @@ export const onCDN = ({ baseCDN, proxy }) => {
                 await customElements.whenDefined(name);
             }
         }
-        handleScriptTag(proxy, node);
+        handleScriptTag((isPlugin ? controller : proxy), node);
     });
     content.querySelectorAll('link').forEach(node => {
         handleLinkTag(proxy, node);

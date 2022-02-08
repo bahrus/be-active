@@ -11,6 +11,7 @@ export const trPlugin: TransformPluginSettings = {
             supportLazy: false,
             CDNpostFix: '',
             noCrossOrigin: false,
+            isPlugin: true,
         }  as BeActiveProps & BeActiveActions;
         if(val!.startsWith('{')){
             const overrides = JSON.parse(val!);

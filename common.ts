@@ -1,9 +1,15 @@
 import {BeActiveActions, BeActiveProps, BeActiveVirtualProps} from './types';
 
-export const onCDN = ({baseCDN, proxy}: BeActiveProps & BeActiveActions) =>{
+export const onCDN = (controller: BeActiveProps & BeActiveActions) => {
+    let {baseCDN, proxy, isPlugin} = controller;
     if(!baseCDN.endsWith('/')){
-        proxy.baseCDN += '/';
-        return; // orchestrator will re-call this method
+        if(isPlugin){
+            baseCDN += '/';
+        }else{
+            proxy.baseCDN += '/';
+            return; // orchestrator will re-call this method
+        }
+
     }
     const content = proxy.content as DocumentFragment;
     content.querySelectorAll('script').forEach(async node =>{
@@ -14,7 +20,7 @@ export const onCDN = ({baseCDN, proxy}: BeActiveProps & BeActiveActions) =>{
                 await customElements.whenDefined(name);
             }
         }
-        handleScriptTag(proxy, node);
+        handleScriptTag((isPlugin ? controller : proxy) as HTMLTemplateElement & BeActiveVirtualProps, node);
     });
     content.querySelectorAll('link').forEach(node =>{
         handleLinkTag(proxy, node);
