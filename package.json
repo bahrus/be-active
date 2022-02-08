@@ -12,8 +12,10 @@
   "main": "be-active.js",
   "module": "be-active.js",
   "exports": {
-    ".": "./be-active.js",
-    "./be-active.js": "./be-active.js"
+    ".": "./index.js",
+    "./be-active.js": "./be-active.js",
+    "./common.js": "./common.js",
+    "./trPlugin.js": "./trPlugin.js"
   },
   "files": [
     "*.*"

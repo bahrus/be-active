@@ -15,5 +15,5 @@ export interface BeActiveProps extends BeActiveVirtualProps{
 export interface BeActiveActions{
     intro(proxy: HTMLTemplateElement & BeActiveVirtualProps, target: HTMLTemplateElement, beDecorProps: BeDecoratedProps): void;
 
-    onCDN(self: this): void;
+    onCDN: (self: BeActiveActions & BeActiveProps) => void;
 }
