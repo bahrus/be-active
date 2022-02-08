@@ -4,12 +4,7 @@ import {register} from 'be-hive/register.js';
 import {onCDN} from './common.js';
 
 export class BeActiveController implements BeActiveActions{
-    // #target!: HTMLTemplateElement;
-    // intro(proxy: HTMLTemplateElement & BeActiveVirtualProps, target: HTMLTemplateElement, beDecorProps: BeDecoratedProps){
-    //     this.#target = target;
-    // }
     onCDN = onCDN;
-
 }
 
 export interface BeActiveController extends BeActiveProps{}
@@ -35,7 +30,6 @@ define<BeActiveProps & BeDecoratedProps<BeActiveProps, BeActiveActions>, BeActiv
             },
             primaryProp: 'baseCDN',
             virtualProps: ['baseCDN', 'supportLazy', 'CDNpostFix', 'noCrossOrigin'],
-            //intro: 'intro'
         },
         actions:{
             onCDN: 'baseCDN',
