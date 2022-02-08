@@ -9,25 +9,28 @@ Activate template content.
 </template>
 ```
 
-## Why?  
+The content inside becomes imported into the current page.
+
+The same syntax above can be used in the following settings:
+
+1.  If the syntax above is part of a SSR or SSG stream, even in some declarative Shadow DOM, based on the be-active attribute acting as a custom attribute / decorator / behavior, similar to how custom elements are activated.
+2.  If the syntax above is encountered during template instantiation.
+    1.  A plugin is provided that makes this template instantiation a simple config setting if using [DTR](https://github.com/bahrus/trans-render/#declarative-trans-render-syntax-via-plugins) for template instantiation.  [Demo](https://github.com/bahrus/be-active/blob/baseline/demo/pluginTest.html).  
+    2.  The plugin approach above will work if the library is already loaded when template instantiation begins.  If the library is not loaded, *Nuk ka problem*, the custom attribute / decorator / behavior fallback will pick it up just fine.
+
+## Why do we need this functionality?  
 
 1.  Outside shadow DOM, when a script tag is inserted, the browser "picks it up" and loads the dependency.  Not so inside Shadow DOM (at least if the tag was cloned from a template).  This strangely inconsistent behavior can be inconvenient, especially if we want to lazy load / prioritize how scripts are loaded.
-
 2.  Font dependencies of a web component have to be added outside of any shadow DOM.
-
 3.  If a web component separates the JS payload from the file containing HTML (like a JSON file or an actual HTML file), it is convenient to list the dependencies in the file that actually uses them.
-
 4.  Lazy loading dependencies becomes much more natural if the dependencies are closely positioned to their actual use.  So even if HTML Modules become a thing, this could still be useful in that context. 
-
 5.  Added plus of placing dependencies close to their use:  Developer can avoid vertiginousness, and not have to scroll up and down so much while adding imports.
-
 6.  Support for hash integrities and for bundled CDN resources and for preloading resources is missing from import maps.
-
-7.  This allows HTML streams to be used both as standalone web pages and also work as part of an embedded stream within the app / page.
+7.  This allows HTML streams to be used both as standalone web pages and also work as part of an embedded stream within the app / page via web components.
 
 ## Priors
 
-Jquery's [load function](https://api.jquery.com/load/) provides support for loading script as well.
+Jquery's [load function](https://api.jquery.com/load/) provides support for loading script as well. As does the millions hits / month [shoelace include](https://shoelace.style/components/include) component.
 
 [lazy-imports](https://github.com/Polymer/lazy-imports) also shares similar goals.
 
@@ -38,9 +41,7 @@ It is also a non-blasphemous alternative to part of what [templ-mount](https://g
 
 ## **NBs:** 
 
-Adopting this approach means, for now, your JavaScript references **cannot benefit from local bundling tools**.  
-
-Plugins for bundling tools are not yet available.
+Adopting this approach means, for now, your JavaScript references **cannot benefit from local bundling tools**.  Plugins for bundling tools are not yet available.
 
 Regardless, the solution *can* already work with both import maps and CDN's.
 
@@ -137,7 +138,7 @@ data-only-if-no-bundled-link-ref="link-ref-id" - if present, script tag will onl
 Each script tag can have a comma delimited list of web component definitions it should wait for before loading.
 
 ```html
-<script when=my-custom-element-1,my-custom-element-2>
+<script data-when=my-custom-element-1,my-custom-element-2>
 ```
 
 
