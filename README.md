@@ -16,7 +16,7 @@ The same syntax above can be used in the following settings:
 1.  If the syntax above is part of a SSR or SSG stream, even in some declarative Shadow DOM, based on the be-active attribute acting as a custom attribute / decorator / behavior, similar to how custom elements are activated.
 2.  If the syntax above is encountered during template instantiation.
     1.  A plugin is provided that makes this template instantiation a simple config setting if using [DTR](https://github.com/bahrus/trans-render/#declarative-trans-render-syntax-via-plugins) for template instantiation.  [Demo](https://github.com/bahrus/be-active/blob/baseline/demo/pluginTest.html).  
-    2.  The plugin approach above will work if the library is already loaded when template instantiation begins.  If the library is not loaded, *Nuk ka problem*, the custom attribute / decorator / behavior fallback will pick it up just fine.
+    2.  The plugin approach above will work if the library is already loaded when template instantiation begins.  If the library is not loaded yet, *Nuk ka problem*, rather than blocking the template instantiation from proceeding, the custom attribute / decorator / behavior fallback will pick it up just fine.
 
 ## Why do we need this functionality?  
 
