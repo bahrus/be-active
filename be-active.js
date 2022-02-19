@@ -1,8 +1,10 @@
 import { define } from 'be-decorated/be-decorated.js';
 import { register } from 'be-hive/register.js';
-import { onCDN } from './common.js';
 export class BeActiveController {
-    onCDN = onCDN;
+    async onCDN({}) {
+        const { onCDN } = await (import('./common.js'));
+        onCDN(this);
+    }
 }
 const tagName = 'be-active';
 const ifWantsToBe = 'active';

@@ -1,10 +1,12 @@
 import {BeDecoratedProps, define} from 'be-decorated/be-decorated.js';
 import {BeActiveActions, BeActiveVirtualProps, BeActiveProps} from './types';
 import {register} from 'be-hive/register.js';
-import {onCDN} from './common.js';
 
 export class BeActiveController implements BeActiveActions{
-    onCDN = onCDN;
+    async onCDN({}){
+        const {onCDN} = await(import('./common.js'));
+        onCDN(this);
+    }
 }
 
 export interface BeActiveController extends BeActiveProps{}
