@@ -6,7 +6,7 @@
 		"experimentalDecorators": false,
 		"newLine": "LF",
 		"watch": true,
-		"strict": true,
+		"strict": true
 	},
 	"files":[
 		"index.ts"
