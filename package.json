@@ -24,12 +24,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "package-check": "package-check",
-    "serve": "node node_modules/xtal-test/serve.js"
+    "serve": "node node_modules/may-it-serve/serve.js"
   },
   "dependencies": {
-    "be-decorated": "0.0.127",
-    "be-hive": "0.0.48",
-    "trans-render": "0.0.553"
+    "be-decorated": "0.0.128",
+    "be-hive": "0.0.50",
+    "trans-render": "0.0.557"
   },
   "devDependencies": {
     "may-it-serve": "0.0.2",
