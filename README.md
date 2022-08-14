@@ -84,7 +84,7 @@ Approach 1:
 <body>
     ...
     <template be-active>
-        <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
+        <script id=blah/blah.js></script>
         <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Indie+Flower">
     </template>
 </body>
@@ -95,7 +95,7 @@ Approach 2:
 
 ```html
 <template be-active=https://cdn.skypack.dev>
-    <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
+    <script id=blah/blah.js></script>
     <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Indie+Flower">
 </template>
 ```
@@ -113,7 +113,7 @@ Example:
     "baseCDN": "https://unpkg.com/",
     "CDNPostfix": "?module"
 }'>
-    <script id=blah/blah.js integrity=... crossorigin=anonymous></script>
+    <script id=blah/blah.js></script>
     <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Indie+Flower">
 </template>
 ```
@@ -156,11 +156,17 @@ To minimize the chances of this happening, add an additional optional attribute 
 
 be-active will check before requesting the resource that there is no web component already registered with name "blah-blah", and if so, avoid doing anything. 
 
-## Lazy Loading [TODO]
+## Lazy Loading 
 
-## Media Queries [TODO]
+To be covered by [be-tagmemic](https://github.com/bahrus/be-tagmemic).
 
-## Bundled References [TODO]
+## Media Queries
+
+To be covered by [be-tagmemic](https://github.com/bahrus/be-tagmemic).
+
+## Bundled References
+
+To be covered by [be-tagmemic](https://github.com/bahrus/be-tagmemic).
 
 
 
