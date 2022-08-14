@@ -39,7 +39,7 @@ be-active is a declarative alternative to [xtal-sip](https://github.com/bahrus/x
 It is also a non-blasphemous alternative to part of what [templ-mount](https://github.com/bahrus/templ-mount) does.
 
 
-## **NBs:** 
+## Details 
 
 Adopting this approach means, for now, your JavaScript references **cannot benefit from local bundling tools**.  Plugins for bundling tools are not yet available.
 
@@ -49,7 +49,7 @@ Each script reference must have an id.  Inner inline script will be ignored.  Yo
 
 By default, CDN provider [jsdelivr.com](https://www.jsdelivr.com/esm) is used in the case that import maps fail.  However, alternative CDN's, such as cdn.skypack.dev, or unpkg.com or maybe an internal CDN, can be used.
 
-The required id is used in two ways:  If the id matches to a link rel=preload (or link rel=anything, really) be-active will get the href from that link. Optional hash integrities will be copied from the link tag.  Same with crossorigin settings.
+The required id is used in two ways:  If the id matches to a link rel=preload (or link rel=anything, really) be-active will get the href from that link. Optional hash integrities will be copied from the link tag.  Same with crossorigin settings.  This only applies to fonts [TODO -- confirm this]
 
 Also, use of an id will block other instances from trying to resolve to something else.  The id should be the bare import specifier that is recommended when referencing the resource in code. This helps to avoid cluttering the head tag, which is where the script tags are placed.
 
