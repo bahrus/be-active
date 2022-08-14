@@ -2,6 +2,12 @@
 
 Activate template content.
 
+[![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-active?style=for-the-badge)](https://bundlephobia.com/result?p=be-active)
+
+<img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-active?compression=gzip">
+
+<a href="https://nodei.co/npm/be-active/"><img src="https://nodei.co/npm/be-active.png"></a>
+
 ```html
 <template be-active>
     <script id=blah/blah.js></script>
