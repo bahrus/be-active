@@ -29,7 +29,7 @@
   "dependencies": {
     "be-decorated": "0.0.131",
     "be-hive": "0.0.52",
-    "trans-render": "0.0.562"
+    "trans-render": "0.0.572"
   },
   "devDependencies": {
     "may-it-serve": "0.0.2",
