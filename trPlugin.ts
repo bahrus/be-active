@@ -1,6 +1,6 @@
 import {RenderContext, TransformPluginSettings} from 'trans-render/lib/types';
 import {register} from 'trans-render/lib/pluginMgr.js';
-import {BeActiveActions, BeActiveProps} from './types';
+import {BeActiveActions, PP, VirtualProps, Proxy} from './types';
 import {onCDN} from './common.js';
 
 export const trPlugin: TransformPluginSettings = {
@@ -12,13 +12,13 @@ export const trPlugin: TransformPluginSettings = {
             CDNpostFix: '',
             noCrossOrigin: false,
             isPlugin: true,
-        }  as BeActiveProps & BeActiveActions;
+        }  as PP;
         if(val!.startsWith('{')){
             const overrides = JSON.parse(val!);
             Object.assign(params, overrides);
         }
-        params.proxy = target as HTMLTemplateElement & BeActiveProps;
-        onCDN(params as BeActiveProps & BeActiveActions);
+        params.proxy = target as Proxy;
+        onCDN(params as any as PP);
     }
 }
 

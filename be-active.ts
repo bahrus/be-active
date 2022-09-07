@@ -1,15 +1,14 @@
 import {BeDecoratedProps, define} from 'be-decorated/be-decorated.js';
-import {BeActiveActions, BeActiveVirtualProps, BeActiveProps} from './types';
+import {BeActiveActions, VirtualProps, PP} from './types';
 import {register} from 'be-hive/register.js';
 
-export class BeActiveController implements BeActiveActions{
-    async onCDN({}){
+export class BeActiveController extends EventTarget implements BeActiveActions{
+    async onCDN(pp: PP){
         const {onCDN} = await(import('./common.js'));
-        onCDN(this);
+        onCDN(pp);
     }
 }
 
-export interface BeActiveController extends BeActiveProps{}
 
 const tagName = 'be-active';
 
@@ -17,7 +16,7 @@ const ifWantsToBe = 'active';
 
 const upgrade = 'template';
 
-define<BeActiveProps & BeDecoratedProps<BeActiveProps, BeActiveActions>, BeActiveActions>({
+define<VirtualProps & BeDecoratedProps<VirtualProps, BeActiveActions>, BeActiveActions>({
     config:{
         tagName,
         propDefaults:{

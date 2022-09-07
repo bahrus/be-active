@@ -1,5 +1,5 @@
-export const onCDN = (controller) => {
-    let { baseCDN, proxy, isPlugin } = controller;
+export const onCDN = (pp) => {
+    let { baseCDN, proxy, isPlugin } = pp;
     if (!baseCDN.endsWith('/')) {
         if (isPlugin) {
             baseCDN += '/';
@@ -18,7 +18,7 @@ export const onCDN = (controller) => {
                 await customElements.whenDefined(name);
             }
         }
-        handleScriptTag((isPlugin ? controller : proxy), node);
+        handleScriptTag((isPlugin ? pp : proxy), node);
     });
     content.querySelectorAll('link').forEach(node => {
         handleLinkTag(proxy, node);

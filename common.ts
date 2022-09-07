@@ -1,8 +1,8 @@
-import {BeActiveActions, BeActiveProps, BeActiveVirtualProps} from './types';
+import {BeActiveActions, VirtualProps, PP} from './types';
 
-export const onCDN = (controller: BeActiveProps & BeActiveActions) => {
-    let {baseCDN, proxy, isPlugin} = controller;
-    if(!baseCDN.endsWith('/')){
+export const onCDN = (pp: PP) => {
+    let {baseCDN, proxy, isPlugin} = pp;
+    if(!baseCDN!.endsWith('/')){
         if(isPlugin){
             baseCDN += '/';
         }else{
@@ -20,7 +20,7 @@ export const onCDN = (controller: BeActiveProps & BeActiveActions) => {
                 await customElements.whenDefined(name);
             }
         }
-        handleScriptTag((isPlugin ? controller : proxy) as HTMLTemplateElement & BeActiveVirtualProps, node);
+        handleScriptTag((isPlugin ? pp : proxy) as HTMLTemplateElement & VirtualProps, node);
     });
     content.querySelectorAll('link').forEach(node =>{
         handleLinkTag(proxy, node);
@@ -28,7 +28,7 @@ export const onCDN = (controller: BeActiveProps & BeActiveActions) => {
     proxy.remove();
 }
 
-function handleScriptTag(self: HTMLTemplateElement & BeActiveVirtualProps, node: HTMLScriptElement){
+function handleScriptTag(self: HTMLTemplateElement & VirtualProps, node: HTMLScriptElement){
     const {id, dataset} = node;
     const {baseCDN, CDNpostFix} = self;
     if(!id) throw 'MIA';  //Missing Id Attribute
@@ -65,7 +65,7 @@ import('${baseCDN}${cdnPath}${CDNpostFix}');
     document.head.appendChild(clone);
 }
 
-function handleLinkTag(self: HTMLTemplateElement & BeActiveVirtualProps, node: HTMLLinkElement){
+function handleLinkTag(self: HTMLTemplateElement & VirtualProps, node: HTMLLinkElement){
     const {href} = node;
     if(!href) throw 'MIA';  //Missing Id Attribute
     const existingTag = (<any>self)[href] as HTMLLinkElement;

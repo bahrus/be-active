@@ -1,9 +1,9 @@
 import { define } from 'be-decorated/be-decorated.js';
 import { register } from 'be-hive/register.js';
-export class BeActiveController {
-    async onCDN({}) {
+export class BeActiveController extends EventTarget {
+    async onCDN(pp) {
         const { onCDN } = await (import('./common.js'));
-        onCDN(this);
+        onCDN(pp);
     }
 }
 const tagName = 'be-active';
