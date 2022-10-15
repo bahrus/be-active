@@ -1,0 +1,1 @@
+self['target'].setAttribute('mark', 'good');
