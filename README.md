@@ -2,6 +2,8 @@
 
 Activate template content.
 
+[![Playwright Tests](https://github.com/bahrus/be-active/actions/workflows/CI.yml/badge.svg?branch=baseline)](https://github.com/bahrus/be-active/actions/workflows/CI.yml)
+
 [![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-active?style=for-the-badge)](https://bundlephobia.com/result?p=be-active)
 
 <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-active?compression=gzip">
