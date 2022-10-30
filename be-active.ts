@@ -24,7 +24,10 @@ export class BeActiveController extends EventTarget implements BeActiveActions{
         content.querySelectorAll('link').forEach(node =>{
             this.#handleLinkTag(pp, node);
         });
-        self.remove();
+        setTimeout(() => {
+            self.remove();
+        }, 1000);
+        
     }
 
 

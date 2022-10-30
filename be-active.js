@@ -22,7 +22,9 @@ export class BeActiveController extends EventTarget {
         content.querySelectorAll('link').forEach(node => {
             this.#handleLinkTag(pp, node);
         });
-        self.remove();
+        setTimeout(() => {
+            self.remove();
+        }, 1000);
     }
     #handleScriptTag(pp, node) {
         const { id, dataset } = node;
