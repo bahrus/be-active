@@ -14,7 +14,6 @@
   "exports": {
     ".": "./index.js",
     "./be-active.js": "./be-active.js",
-    "./common.js": "./common.js",
     "./trPlugin.js": "./trPlugin.js"
   },
   "files": [
@@ -27,9 +26,9 @@
     "serve": "node node_modules/may-it-serve/serve.js"
   },
   "dependencies": {
-    "be-decorated": "0.0.182",
-    "be-hive": "0.0.76",
-    "trans-render": "0.0.628"
+    "be-decorated": "0.0.190",
+    "be-hive": "0.0.77",
+    "trans-render": "0.0.631"
   },
   "devDependencies": {
     "may-it-serve": "0.0.3",

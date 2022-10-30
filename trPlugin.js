@@ -1,21 +1,13 @@
 import { register } from 'trans-render/lib/pluginMgr.js';
-import { onCDN } from './common.js';
 export const trPlugin = {
     selector: 'beActiveAttribs',
-    processor: ({ target, val, attrib, host }) => {
-        const params = {
-            baseCDN: self['be-active/baseCDN']?.href || 'https://esm.run/',
-            supportLazy: false,
-            CDNpostFix: '',
-            noCrossOrigin: false,
-            isPlugin: true,
-        };
-        if (val.startsWith('{')) {
-            const overrides = JSON.parse(val);
-            Object.assign(params, overrides);
-        }
-        params.proxy = target;
-        onCDN(params);
+    ready: true,
+    processor: async ({ target, val, attrib, host }) => {
+        if (customElements.get('be-active') === undefined)
+            return;
+        const { attach } = await import('be-decorated/upgrade.js');
+        const instance = document.createElement('be-active');
+        attach(target, 'active', instance.attach.bind(instance));
     }
 };
 register(trPlugin);

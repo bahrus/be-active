@@ -5,7 +5,6 @@ export interface EndUserProps {
     CDNpostFix?: string;
     noCrossOrigin?: boolean;
     supportLazy?: boolean;
-    isPlugin?: boolean;
 }
 export interface VirtualProps extends EndUserProps, MinimalProxy<HTMLTemplateElement>{}
 
@@ -17,7 +16,8 @@ export interface ProxyProps extends VirtualProps{
 
 export type PP = ProxyProps;
 
+export type PPP = Partial<ProxyProps>;
 
 export interface BeActiveActions{
-    onCDN: (pp: PP) => void;
+    onCDN: (pp: PP) => Promise<PPP | void>;
 }
