@@ -3,12 +3,15 @@
 Activate template content.
 
 [![Playwright Tests](https://github.com/bahrus/be-active/actions/workflows/CI.yml/badge.svg?branch=baseline)](https://github.com/bahrus/be-active/actions/workflows/CI.yml)
+[![NPM version](https://badge.fury.io/js/be-active.png)](http://badge.fury.io/js/be-active)
 
+Size including be-decorated framework:
 [![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-active?style=for-the-badge)](https://bundlephobia.com/result?p=be-active)
 
+Size of new code:
 <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-active?compression=gzip">
 
-<a href="https://nodei.co/npm/be-active/"><img src="https://nodei.co/npm/be-active.png"></a>
+
 
 ```html
 <template be-active>
@@ -33,8 +36,7 @@ The same syntax above can be used in the following settings:
 3.  If a web component separates the JS payload from the file containing HTML (like a JSON file or an actual HTML file), it is convenient to list the dependencies in the file that actually uses them.
 4.  Lazy loading dependencies becomes much more natural if the dependencies are closely positioned to their actual use.  So even if HTML Modules become a thing, this could still be useful in that context. 
 5.  Added plus of placing dependencies close to their use:  Developer can avoid vertiginousness, and not have to scroll up and down so much while adding imports.
-6.  Support for hash integrities and for bundled CDN resources and for preloading resources is missing from import maps.
-7.  This allows HTML streams to be used both as standalone web pages and also work as part of an embedded stream within the app / page via web components.
+6.  This allows HTML streams to be used both as standalone web pages and also work as part of an embedded stream within the app / page via web components.
 
 ## Priors
 
@@ -166,7 +168,7 @@ be-active will check before requesting the resource that there is no web compone
 
 ## Lazy Loading 
 
-To be covered by [be-tagmemic](https://github.com/bahrus/be-tagmemic).
+While be-active supports some amount of lazy loading, based on the placement of the tag / visibility of the tag, it does load the dependencies as soon as it is visible.  To only load a dependency when a custom element itself that depends on the dependency becomes visible, that use case is to be covered by [be-tagmemic](https://github.com/bahrus/be-tagmemic).
 
 ## Media Queries
 
