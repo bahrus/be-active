@@ -12,29 +12,27 @@
   "main": "be-active.js",
   "module": "be-active.js",
   "exports": {
-    ".": "./index.js",
-    "./be-active.js": "./be-active.js",
-    "./trPlugin.js": "./trPlugin.js"
+    ".": "./be-active.js",
+    "./be-active.js": "./be-active.js"
   },
   "files": [
-    "*.*"
+    "*.js",
+    "types.d.ts"
   ],
   "types": "types.d.ts",
   "scripts": {
-    "test": "playwright test",
-    "package-check": "package-check",
-    "serve": "node node_modules/may-it-serve/serve.js"
+    "serve": "node node_modules/may-it-serve/serve.js",
+    "test": "playwright test"
   },
   "dependencies": {
-    "be-decorated": "0.0.198",
-    "be-hive": "0.0.77",
-    "trans-render": "0.0.646"
+    "be-enhanced": "0.0.14",
+    "be-hive": "0.0.92",
+    "trans-render": "0.0.677",
+    "xtal-element": "0.0.559"
   },
   "devDependencies": {
-    "may-it-serve": "0.0.4",
-    "@playwright/test": "1.27.1",
-    "@skypack/package-check": "0.2.2",
-    "@custom-elements-manifest/analyzer": "0.6.4"
+    "@playwright/test": "1.33.0",
+    "may-it-serve": "0.0.5"
   },
   "repository": {
     "type": "git",

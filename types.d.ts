@@ -1,23 +1,24 @@
-import {BeDecoratedProps, MinimalProxy} from 'be-decorated/types';
+import { ActionOnEventConfigs } from "trans-render/froop/types";
+import {IBE} from 'be-enhanced/types';
 
-export interface EndUserProps {
+export interface EndUserProps extends IBE<HTMLTemplateElement> {
     baseCDN?: string;
     CDNpostFix?: string;
     noCrossOrigin?: boolean;
     supportLazy?: boolean;
 }
-export interface VirtualProps extends EndUserProps, MinimalProxy<HTMLTemplateElement>{}
 
-export type Proxy = HTMLTemplateElement & VirtualProps;
+export interface AllProps extends EndUserProps{}
 
-export interface ProxyProps extends VirtualProps{
-    proxy: Proxy;
-}
+export type AP = AllProps;
 
-export type PP = ProxyProps;
+export type PAP = Partial<AP>;
 
-export type PPP = Partial<ProxyProps>;
+export type ProPAP = Promise<PAP>;
+
+export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>]
+
 
 export interface BeActiveActions{
-    onCDN: (pp: PP) => Promise<PPP | void>;
+    onCDN: (self: this): ProPAP;
 }
