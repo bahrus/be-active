@@ -5,7 +5,7 @@ export interface EndUserProps extends IBE<HTMLTemplateElement> {
     baseCDN?: string;
     CDNpostFix?: string;
     noCrossOrigin?: boolean;
-    supportLazy?: boolean;
+    //supportLazy?: boolean;
 }
 
 export interface AllProps extends EndUserProps{}
@@ -19,6 +19,6 @@ export type ProPAP = Promise<PAP>;
 export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>]
 
 
-export interface BeActiveActions{
-    onCDN: (self: this): ProPAP;
+export interface Actions{
+    onCDN(self: this): ProPAP;
 }

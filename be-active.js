@@ -1,14 +1,21 @@
-import { define } from 'be-decorated/DE.js';
+import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
+import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
-export class BeActiveController extends EventTarget {
-    async onCDN(pp) {
-        const { baseCDN, self } = pp;
+export class BeActive extends BE {
+    static get beConfig() {
+        return {
+            parse: true,
+            primaryProp: 'baseCDN'
+        };
+    }
+    async onCDN(self) {
+        const { enhancedElement, baseCDN } = self;
         if (!baseCDN.endsWith('/')) {
             return {
                 baseCDN: baseCDN + '/', // orchestrator will re-call this method
             };
         }
-        const content = self.content;
+        const content = enhancedElement.content;
         content.querySelectorAll('script').forEach(async (node) => {
             const when = node.dataset.when;
             if (when !== undefined) {
@@ -17,34 +24,35 @@ export class BeActiveController extends EventTarget {
                     await customElements.whenDefined(name);
                 }
             }
-            this.#handleScriptTag(pp, node);
+            this.#handleScriptTag(self, node);
         });
         content.querySelectorAll('link').forEach(node => {
-            this.#handleLinkTag(pp, node);
+            this.#handleLinkTag(self, node);
         });
         setTimeout(() => {
-            self.remove();
+            enhancedElement.remove();
         }, 1000);
+        return {
+            resolved: true,
+        };
     }
-    #handleScriptTag(pp, node) {
+    #handleScriptTag(self, node) {
         const { id, dataset } = node;
-        const { baseCDN, CDNpostFix } = pp;
+        const { baseCDN, CDNpostFix, enhancedElement, noCrossOrigin } = self;
         if (!id)
             throw 'MIA'; //Missing Id Attribute
         if (dataset.for !== undefined) {
             if (customElements.get(dataset.for) !== undefined)
                 return;
         }
-        const existingTag = pp[id];
+        const existingTag = window[id];
         if (existingTag !== undefined && existingTag.localName === 'script')
             return;
-        //TODO -- if no existingTag, but dom content not fully loaded, have to wait (for lazy support)
-        //only if supportLazy setting is present.
         const clone = document.createElement('script');
         clone.id = id;
         clone.type = 'module';
         this.#copyAttrs(existingTag || node, clone, ['async', 'defer', 'integrity', 'crossorigin', 'referrerpolicy']);
-        if (!pp.noCrossOrigin && !clone.crossOrigin) {
+        if (!noCrossOrigin && !clone.crossOrigin) {
             clone.crossOrigin = 'anonymous';
         }
         if (existingTag !== undefined) {
@@ -77,11 +85,11 @@ export class BeActiveController extends EventTarget {
             dest.setAttribute(attr, attrVal);
         });
     }
-    #handleLinkTag(pp, node) {
+    #handleLinkTag(self, node) {
         const { href } = node;
         if (!href)
             throw 'MIA'; //Missing Id Attribute
-        const existingTag = pp[href];
+        const existingTag = window[href];
         if (existingTag !== undefined && existingTag.rel) {
             if (existingTag.rel === 'stylesheet')
                 return;
@@ -91,35 +99,29 @@ export class BeActiveController extends EventTarget {
         const clone = document.createElement('link');
         Object.assign(clone, { id: href, rel: 'stylesheet', href });
         this.#copyAttrs(existingTag || node, clone, ['integrity', 'crossorigin']);
-        //if(!this.noCrossOrigin && !clone.crossOrigin){clone.crossOrigin = 'anonymous';}
         document.head.appendChild(clone);
     }
 }
 const tagName = 'be-active';
 const ifWantsToBe = 'active';
 const upgrade = 'template';
-define({
+const xe = new XE({
     config: {
         tagName,
         propDefaults: {
-            ifWantsToBe,
-            upgrade,
-            forceVisible: [upgrade],
-            proxyPropDefaults: {
-                baseCDN: self['be-active/baseCDN']?.href || 'https://esm.run/',
-                supportLazy: false,
-                CDNpostFix: '',
-                noCrossOrigin: false,
-            },
-            primaryProp: 'baseCDN',
-            virtualProps: ['baseCDN', 'supportLazy', 'CDNpostFix', 'noCrossOrigin'],
+            ...propDefaults,
+            baseCDN: self['be-active/baseCDN']?.href || 'https://esm.run/',
+            //supportLazy: false,
+            CDNpostFix: '',
+            noCrossOrigin: false,
+        },
+        propInfo: {
+            ...propInfo
         },
         actions: {
             onCDN: 'baseCDN',
         }
     },
-    complexPropDefaults: {
-        controller: BeActiveController
-    }
+    superclass: BeActive,
 });
 register(ifWantsToBe, upgrade, tagName);

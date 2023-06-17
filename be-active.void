@@ -1,25 +1,16 @@
-import {BE, propDefaults, propInfo} from 'be-enhanced/BE.js';
-import {BEConfig} from 'be-enhanced/types';
-import {XE} from 'xtal-element/XE.js';
-import {Actions, AllProps, AP, PAP, ProPAP, POA} from './types';
+import {BeDecoratedProps, define} from 'be-decorated/DE.js';
+import {BeActiveActions, VirtualProps, PP, PPP} from './types';
 import {register} from 'be-hive/register.js';
 
-export class BeActive extends BE<AP, Actions, HTMLTemplateElement> implements Actions{
-    static  override get beConfig(){
-        return {
-            parse: true,
-            primaryProp: 'baseCDN'
-        } as BEConfig
-    }
-    
-    async onCDN(self: this): ProPAP {
-        const {enhancedElement, baseCDN} = self;
+export class BeActiveController extends EventTarget implements BeActiveActions{
+    async onCDN(pp: PP){
+        const {baseCDN, self} = pp;
         if(!baseCDN!.endsWith('/')){
             return {
                 baseCDN: baseCDN + '/', // orchestrator will re-call this method
-            } as PAP;
+            } as PPP;
         }
-        const content = enhancedElement.content as DocumentFragment;
+        const content = self.content as DocumentFragment;
         content.querySelectorAll('script').forEach(async node =>{
             const when = node.dataset.when;
             if(when !== undefined){
@@ -28,33 +19,34 @@ export class BeActive extends BE<AP, Actions, HTMLTemplateElement> implements Ac
                     await customElements.whenDefined(name);
                 }
             }
-            this.#handleScriptTag(self, node);
+            this.#handleScriptTag(pp, node);
         });
         content.querySelectorAll('link').forEach(node =>{
-            this.#handleLinkTag(self, node);
+            this.#handleLinkTag(pp, node);
         });
         setTimeout(() => {
-            enhancedElement.remove();
+            self.remove();
         }, 1000);
-        return {
-            resolved: true,
-        }
+        
     }
 
-    #handleScriptTag(self: this, node: HTMLScriptElement){
+
+    #handleScriptTag(pp: PP, node: HTMLScriptElement){
         const {id, dataset} = node;
-        const {baseCDN, CDNpostFix, enhancedElement, noCrossOrigin} = self;
+        const {baseCDN, CDNpostFix} = pp;
         if(!id) throw 'MIA';  //Missing Id Attribute
         if(dataset.for !== undefined){
             if(customElements.get(dataset.for) !== undefined) return;
         }
-        const existingTag = (<any>window)[id] as HTMLLinkElement;
+        const existingTag = (<any>pp)[id] as HTMLLinkElement;
         if(existingTag !== undefined && existingTag.localName === 'script') return;
+        //TODO -- if no existingTag, but dom content not fully loaded, have to wait (for lazy support)
+        //only if supportLazy setting is present.
         const clone = document.createElement('script') as HTMLScriptElement;
         clone.id = id;
         clone.type = 'module';
         this.#copyAttrs(existingTag || node, clone, ['async', 'defer', 'integrity', 'crossorigin', 'referrerpolicy']);
-        if(!noCrossOrigin && !clone.crossOrigin){clone.crossOrigin = 'anonymous';}
+        if(!pp.noCrossOrigin && !clone.crossOrigin){clone.crossOrigin = 'anonymous';}
         if(existingTag !== undefined){
             clone.innerHTML = `import('${existingTag.href}');`;
         }else{
@@ -85,10 +77,10 @@ export class BeActive extends BE<AP, Actions, HTMLTemplateElement> implements Ac
         })
     }
 
-    #handleLinkTag(self: this, node: HTMLLinkElement){
+    #handleLinkTag(pp: PP, node: HTMLLinkElement){
         const {href} = node;
         if(!href) throw 'MIA';  //Missing Id Attribute
-        const existingTag = (<any>window)[href] as HTMLLinkElement;
+        const existingTag = (<any>pp)[href] as HTMLLinkElement;
         if(existingTag !== undefined && existingTag.rel){
             if(existingTag.rel === 'stylesheet') return;
             existingTag.rel = 'stylesheet';
@@ -98,34 +90,41 @@ export class BeActive extends BE<AP, Actions, HTMLTemplateElement> implements Ac
         const clone = document.createElement('link') as HTMLLinkElement;
         Object.assign(clone, {id: href, rel: 'stylesheet', href});
         this.#copyAttrs(existingTag || node, clone, ['integrity', 'crossorigin']);
+        //if(!this.noCrossOrigin && !clone.crossOrigin){clone.crossOrigin = 'anonymous';}
         document.head.appendChild(clone);
     }
 }
 
-export interface BeActive extends AllProps{}
 
 const tagName = 'be-active';
+
 const ifWantsToBe = 'active';
+
 const upgrade = 'template';
 
-const xe = new XE<AP, Actions>({
-    config: {
+define<VirtualProps & BeDecoratedProps<VirtualProps, BeActiveActions>, BeActiveActions>({
+    config:{
         tagName,
-        propDefaults: {
-            ...propDefaults,
-            baseCDN: (<any>self)['be-active/baseCDN']?.href || 'https://esm.run/',
-            //supportLazy: false,
-            CDNpostFix: '',
-            noCrossOrigin: false,
+        propDefaults:{
+            ifWantsToBe,
+            upgrade,
+            forceVisible: [upgrade],
+            proxyPropDefaults:{
+                baseCDN: (<any>self)['be-active/baseCDN']?.href || 'https://esm.run/',
+                supportLazy: false,
+                CDNpostFix: '',
+                noCrossOrigin: false,
+            },
+            primaryProp: 'baseCDN',
+            virtualProps: ['baseCDN', 'supportLazy', 'CDNpostFix', 'noCrossOrigin'],
         },
-        propInfo: {
-            ...propInfo
-        },
-        actions: {
+        actions:{
             onCDN: 'baseCDN',
         }
     },
-    superclass: BeActive,
+    complexPropDefaults:{
+        controller : BeActiveController
+    }
 });
 
 register(ifWantsToBe, upgrade, tagName);

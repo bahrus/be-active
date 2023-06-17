@@ -8,7 +8,7 @@
 		"strict": true
 	},
 	"files":[
-		"be-active2.ts"
+		"be-active.ts"
 	],
 	"exclude":[
 		"node_modules"
