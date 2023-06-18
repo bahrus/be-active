@@ -4,11 +4,7 @@ Activate template content.
 
 [![Playwright Tests](https://github.com/bahrus/be-active/actions/workflows/CI.yml/badge.svg?branch=baseline)](https://github.com/bahrus/be-active/actions/workflows/CI.yml)
 [![NPM version](https://badge.fury.io/js/be-active.png)](http://badge.fury.io/js/be-active)
-
-Size including be-decorated framework:
 [![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-active?style=for-the-badge)](https://bundlephobia.com/result?p=be-active)
-
-Size of new code:
 <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-active?compression=gzip">
 
 
@@ -21,13 +17,6 @@ Size of new code:
 ```
 
 The content inside becomes imported into the current page.
-
-The same syntax above can be used in the following settings:
-
-1.  If the syntax above is part of a SSR or SSG stream, even in some declarative Shadow DOM, based on the be-active attribute acting as a custom attribute / decorator / behavior, similar to how custom elements are activated.
-2.  If the syntax above is encountered during template instantiation.
-    1.  A plugin is provided that makes this template instantiation a simple config setting if using [DTR](https://github.com/bahrus/trans-render/#declarative-trans-render-syntax-via-plugins) for template instantiation.  [Demo](https://github.com/bahrus/be-active/blob/baseline/demo/pluginTest.html).  
-    2.  The plugin approach above will work if the library is already loaded when template instantiation begins.  If the library is not loaded yet, *Nuk ka problem*, rather than blocking the template instantiation from proceeding, the custom attribute / decorator / behavior fallback will pick it up just fine.
 
 ## Why do we need this functionality?  
 
