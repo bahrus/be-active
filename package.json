@@ -22,17 +22,19 @@
   "types": "types.d.ts",
   "scripts": {
     "serve": "node node_modules/may-it-serve/serve.js",
-    "test": "playwright test"
+    "test": "playwright test",
+    "safari": "npx playwright wk http://localhost:3030",
+    "update": "ncu -u && npm install"
   },
   "dependencies": {
-    "be-enhanced": "0.0.31",
-    "be-hive": "0.0.107",
-    "trans-render": "0.0.690",
-    "xtal-element": "0.0.569"
+    "be-enhanced": "0.0.57",
+    "be-hive": "0.0.128",
+    "trans-render": "0.0.722",
+    "xtal-element": "0.0.580"
   },
   "devDependencies": {
-    "@playwright/test": "1.35.0",
-    "may-it-serve": "0.0.5"
+    "@playwright/test": "1.40.1",
+    "may-it-serve": "0.0.6"
   },
   "repository": {
     "type": "git",

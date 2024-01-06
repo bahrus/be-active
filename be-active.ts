@@ -33,9 +33,11 @@ export class BeActive extends BE<AP, Actions, HTMLTemplateElement> implements Ac
         content.querySelectorAll('link').forEach(node =>{
             this.#handleLinkTag(self, node);
         });
+        enhancedElement.setAttribute('be-gone', '');
         setTimeout(() => {
             enhancedElement.remove();
         }, 1000);
+        
         return {
             resolved: true,
         }
