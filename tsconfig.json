@@ -8,7 +8,7 @@
 		"strict": true
 	},
 	"files":[
-		"be-active.ts"
+		"behivior.ts"
 	],
 	"exclude":[
 		"node_modules"

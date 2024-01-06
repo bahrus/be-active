@@ -106,7 +106,7 @@ export class BeActive extends BE<AP, Actions, HTMLTemplateElement> implements Ac
 
 export interface BeActive extends AllProps{}
 
-const tagName = 'be-active';
+export const tagName = 'be-active';
 const ifWantsToBe = 'active';
 const upgrade = 'template';
 

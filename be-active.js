@@ -103,7 +103,7 @@ export class BeActive extends BE {
         document.head.appendChild(clone);
     }
 }
-const tagName = 'be-active';
+export const tagName = 'be-active';
 const ifWantsToBe = 'active';
 const upgrade = 'template';
 const xe = new XE({
