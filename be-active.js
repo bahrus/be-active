@@ -1,6 +1,5 @@
 import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
-import { register } from 'be-hive/register.js';
 export class BeActive extends BE {
     static get beConfig() {
         return {
@@ -125,4 +124,3 @@ const xe = new XE({
     },
     superclass: BeActive,
 });
-register(ifWantsToBe, upgrade, tagName);
